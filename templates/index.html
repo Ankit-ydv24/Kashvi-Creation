@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/img4-2-577x395.jpg') }}">
+
+    <meta name="description"
+        content="Kashvi Creation offers exquisite designer sarees that blend tradition with modern aesthetics for a seamless shopping experience.">
+
+
+
+    <title>Luxurious E-commerce Site for Kashvi Creation Designer Sarees</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='web/assets/mobirise-icons2/mobirise2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-grid.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-reboot.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='parallax/jarallax.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dropdown/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='socicon/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme/css/style.css') }}">
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Brygada+1918:wght@400;700&display=swap&display=swap">
+    </noscript>
+    <link rel="preload" as="style" href="{{ url_for('static', filename='mobirise/css/mbr-additional.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='mobirise/css/mbr-additional.css') }}" type="text/css">
+
+    <style>
+        /* Basic Styling */
+
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            border-radius: 15px;
+            width: 35%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-header img {
+            max-height: 60px;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            color: #007bff;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .close {
+            font-size: 20px;
+            color: #666;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .close:hover {
+            color: #e74c3c;
+        }
+
+        .modal-body {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Prevent background scrolling */
+        body.modal-open {
+            overflow: hidden;
+        }
+    </style>
+
+<style>
+   
+    .scroll-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding: 1rem;
+    }
+
+    .marquee {
+      display: flex;
+      gap: 1rem;
+      width: 200%;
+      animation: scroll 10s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .review-card {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 14rem;
+      height: 18rem;
+      padding: 1rem;
+      flex-shrink: 0;
+      text-align: center;
+      color: #1f2937;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform: scale(0.9);
+    }
+
+    .review-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .review-card.active {
+      transform: scale(1.2) !important;
+    }
+
+    .review-card h5 {
+      font-size: 1.125rem;
+      font-weight: bold;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-card p {
+      font-size: 0.875rem;
+      line-height: 1.4;
+      overflow: hidden;
+      margin: 0;
+    }
+  </style>
+
+</head>
+
+<body>
+
+    <section data-bs-version="5.1" class="menu menu2 cid-uC2PdAXTfI" once="menu" id="menu-5-uC2PdAXTfI">
+
+
+        <nav  class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+            <div class="container">
+                <div class="navbar-brand" >
+                    <span class="navbar-logo">
+                        <a style="border-radius: 0%;">
+                            <img src="{{ url_for('static', filename='images/img-20250204-wa0006-224x224.jpg') }}"
+                                style="height: 4.2rem; border-radius: 0%;">
+
+                        </a>
+                    </span>
+
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse"
+                    data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
+                        <li class="nav-item">
+                            <a class="nav-link link text-black display-4" href="/">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link link text-black display-4" href="#about_us">About</a>
+                        </li>
+
+                    </ul>
+                    <div class="icons-menu">
+                        <a class="iconfont-wrapper" href="#map">
+                            <span class="p-2 mbr-iconfont mobi-mbri-phone mobi-mbri"></span>
+                        </a>
+                        <a class="iconfont-wrapper" href="#get_in_touch">
+                            <span class="p-2 mbr-iconfont mobi-mbri-letter mobi-mbri"></span>
+                        </a>
+                        <a class="iconfont-wrapper" href="#map">
+                            <span class="p-2 mbr-iconfont mobi-mbri-map-pin mobi-mbri"></span>
+                        </a>
+
+                    </div>
+                    <div class="navbar-buttons mbr-section-btn" style="margin-right: 0.5rem;">
+                        <a class="btn btn-primary display-4">Shop Now</a>
+                    </div>
+                    <div class="navbar-buttons mbr-section-btn">
+                        <button class="btn btn-primary display-4" onclick="openModal()">Admin Login</button>
+                    </div>
+
+
+        </nav>
+
+
+
+    </section>
+
+    <section>
+        <!-- Admin Login Modal -->
+        <div id="adminLoginModal" class="modal">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    Admin Login
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+
+                <!-- Modal Body (Login Form) -->
+                <div class="modal-body">
+                    <form id="adminLoginForm">
+                        <div class="form-group">
+                            <label for="adminUsername">Username</label>
+                            <input type="text" id="adminUsername" placeholder="Enter username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminPassword">Password</label>
+                            <input type="password" id="adminPassword" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Login</button>
+                    </form>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <p>Only authorized admins can access this section.</p>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <section data-bs-version="5.1" class="header18 cid-uC2PdAXAJn mbr-fullscreen mbr-parallax-background"
+        id="hero-16-uC2PdAXAJn">
+
+
+        <div class="mbr-overlay" style="opacity: 0.4; background-color: rgb(0, 0, 0);"></div>
+        <div class="container-fluid">
+            <div class="row">
+
+                
+
+                <div class="content-wrap col-12 col-md-11" style="text-align: center;">
+                    <h1 style="font-family: sans-serif; font-weight: bold; font-size: 5em; color:gold; margin-bottom: 5px;">
+                        KASHVI
+                    </h1>
+                    <h2 style="font-family: sans-serif; font-size: 2rem; color:gold ; letter-spacing: 0.2em; margin-bottom: 15px;margin-left: 6rem;">
+                        CREATION
+                    </h2>
+                    <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7">"प्रेम और विश्वास का अनोखा संगम"</p>
+                    <div class="mbr-section-btn">
+                        <a class="btn btn-white-outline display-7" href="https://mobiri.se">Explore Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="jarallax-container-0"
+            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; z-index: -100;">
+            <div
+                style="background-position: 50% 50%; background-size: contain; background-repeat: no-repeat; background-color:aqua; position: absolute; width: 100%; height: 655.164px; overflow: hidden; pointer-events: none; transform-style: preserve-3d; backface-visibility: hidden; will-change: transform, opacity; margin-top: -0.0818298px; transform: translate3d(0px, 0.0818298px, 0px);">
+            </div>
+        </div>
+
+        </div>
+
+    </section>
+
+    <section data-bs-version="5.1" class="gallery07 cid-uC2PdAXJop" id="gallery-14-uC2PdAXJop">
+
+
+        <div class="container-fluid gallery-wrapper">
+            <div class="row justify-content-center">
+                <div class="col-12 content-head">
+
+                </div>
+            </div>
+            <div class="grid-container">
+                <div class="grid-container-3 moving-left" style="transform: translate3d(-200px, 0px, 0px);">
+                    <div class="grid-item">
+                        <img src="{{ url_for('static', filename='images/24341-1-page-4-838x1257.jpg') }}"
+                            alt="Mobirise Website Builder">
+                    </div>
+                    <div class="grid-item">
+                        <img src="{{ url_for('static', filename='images/24341-1-page-6-838x1257.jpg') }}"
+                            alt="Mobirise Website Builder">
+                    </div>
+                    <div class="grid-item">
+                        <img src="{{ url_for('static', filename='images/24341-1-page-5-838x1257.jpg') }}"
+                            alt="Mobirise Website Builder">
+                    </div>
+                    <div class="grid-item">
+                        <img src="{{ url_for('static', filename='images/24341-1-page-7-838x1257.jpg') }}"
+                            alt="Mobirise Website Builder">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="header18 cid-uC2PdB0mdk mbr-fullscreen"
+        data-bg-video="https://youtu.be/ivT89MLuruY" id="video-5-uC2PdB0mdk">
+
+
+        <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(0, 0, 0);"></div>
+        <div class="container-fluid">
+            <div class="row">
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="features03 cid-uC2PdB2heI" id="news-1-uC2PdB2heI">
+
+
+        <div class="container-fluid">
+            <div class="row justify-content-center mb-5">
+                <div class="col-12 content-head">
+                    <div class="mbr-section-head">
+                        <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2"><strong>Our latest
+                                collection !!!</strong></h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="item features-image col-12 col-md-6 col-lg-3 active">
+                    <div class="item-wrapper">
+                        <div class="item-img mb-3">
+                            <img src="{{ url_for('static', filename='images/24341-1-page-1-577x395.jpg') }}"
+                                alt="Mobirise Website Builder" title="" data-slide-to="2" data-bs-slide-to="2">
+
+                        </div>
+                        <div class="item-content align-left">
+
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Added on&nbsp;February 1, 2025</p>
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Discover the elegance of our latest saree
+                                designs that blend tradition with modern flair.</p>
+                            <div class="mbr-section-btn item-footer"><a href=""
+                                    class="btn item-btn btn-primary display-7"><span
+                                        class="mobi-mbri mobi-mbri-cart-full mbr-iconfont mbr-iconfont-btn"></span>Shop</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item features-image col-12 col-md-6 col-lg-3">
+                    <div class="item-wrapper">
+                        <div class="item-img mb-3">
+                            <img src="{{ url_for('static', filename='images/img4-1-577x395.jpg') }}"
+                                alt="Mobirise Website Builder" title="" data-slide-to="1" data-bs-slide-to="1">
+                        </div>
+                        <div class="item-content align-left">
+
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Added on&nbsp;January 25, 2025</p>
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Learn how to drape your saree like a pro
+                                with our expert tips. Elevate your style game!</p>
+                            <div class="mbr-section-btn item-footer"><a href=""
+                                    class="btn item-btn btn-primary display-7"><span
+                                        class="mobi-mbri mobi-mbri-cart-full mbr-iconfont mbr-iconfont-btn"></span>Shop!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item features-image col-12 col-md-6 col-lg-3">
+                    <div class="item-wrapper">
+                        <div class="item-img mb-3">
+                            <img src="{{ url_for('static', filename='images/img13-577x395.jpg') }}" alt="" title="">
+                        </div>
+                        <div class="item-content align-left">
+
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Added on&nbsp; January 15, 2025</p>
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Take a peek into our studio and see how
+                                we create our stunning sarees. It's a labor of love!</p>
+                            <div class="mbr-section-btn item-footer"><a href=""
+                                    class="btn item-btn btn-primary display-7"><span
+                                        class="mobi-mbri mobi-mbri-cart-full mbr-iconfont mbr-iconfont-btn"></span>Shop!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item features-image col-12 col-md-6 col-lg-3">
+                    <div class="item-wrapper">
+                        <div class="item-img mb-3">
+                            <img src="{{ url_for('static', filename='images/img4-2-577x395.jpg') }}"
+                                alt="Mobirise Website Builder" title="" data-slide-to="2" data-bs-slide-to="2">
+
+                        </div>
+                        <div class="item-content align-left">
+
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Added on January 10, 2025</p>
+                            <p class="mbr-text mbr-fonts-style mb-3 display-7">Check out the sarees that our customers
+                                can't get enough of. Spoiler: They're fabulous!</p>
+                            <div class="mbr-section-btn item-footer"><a href=""
+                                    class="btn item-btn btn-primary display-7"><span
+                                        class="mobi-mbri mobi-mbri-cart-full mbr-iconfont mbr-iconfont-btn"></span>Shop!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="slider05 cid-uCd4EeL9n6" id="slider05-0">
+
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10">
+                    <div class="carousel slide carousel-fade" id="uCdctPaKWL" data-ride="carousel"
+                        data-bs-ride="carousel" data-interval="3000" data-bs-interval="3000">
+                        <ol class="carousel-indicators">
+                            <li data-slide-to="0" data-bs-slide-to="0" class="active" data-target="#uCdctPaKWL"
+                                data-bs-target="#uCdctPaKWL"></li>
+                            <li data-slide-to="1" data-bs-slide-to="1" data-target="#uCdctPaKWL"
+                                data-bs-target="#uCdctPaKWL"></li>
+                            <li data-slide-to="2" data-bs-slide-to="2" data-target="#uCdctPaKWL"
+                                data-bs-target="#uCdctPaKWL"></li>
+                        </ol>
+                        <div class="carousel-inner">
+
+                            <div class="carousel-item slider-image item active">
+                                <div class="item-wrapper">
+                                    <img class="d-block w-100"
+                                        src="{{ url_for('static', filename='images/img9-3-1980x1320.jpg') }}"
+                                        alt="Mobirise Website Builder">
+
+
+                                </div>
+                            </div>
+                            <div class="carousel-item slider-image item">
+                                <div class="item-wrapper">
+
+                                    <img class="d-block w-100"
+                                        src="{{ url_for('static', filename='images/img9-1800x1200.jpg') }}"
+                                        alt="Mobirise Website Builder" data-slide-to="1" data-bs-slide-to="1">
+
+                                </div>
+                            </div>
+                            <div class="carousel-item slider-image item">
+                                <div class="item-wrapper">
+
+                                    <img class="d-block w-100"
+                                        src="{{ url_for('static', filename='images/img9-7-1800x1200.jpg') }}"
+                                        alt="Mobirise Website Builder" data-slide-to="2" data-bs-slide-to="2">
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control carousel-control-prev" role="button" data-slide="prev"
+                            data-bs-slide="prev" href="#uCdctPaKWL">
+                            <span class="mobi-mbri mobi-mbri-arrow-prev" aria-hidden="true"></span>
+                            <span class="sr-only visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control carousel-control-next" role="button" data-slide="next"
+                            data-bs-slide="next" href="#uCdctPaKWL">
+                            <span class="mobi-mbri mobi-mbri-arrow-next" aria-hidden="true"></span>
+                            <span class="sr-only visually-hidden">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="article07 cid-uC2PdAXVk9" id="about-us-7-uC2PdAXVk9">
+
+
+
+
+        <div class="container" id="about_us">
+            <div class="row justify-content-center">
+                <div class="card col-md-12 col-lg-10">
+                    <div class="card-wrapper">
+                        <h3 class="card-title mbr-fonts-style mbr-white mt-3 mb-4 display-5">
+                            <strong>Our Story Unfolds</strong>
+                        </h3>
+                        <div class="row card-box align-left">
+                            <div class="item features-without-image col-12">
+                                <div class="item-wrapper">
+
+                                    <p class="mbr-text mbr-fonts-style display-7">Welcome to Kashvi Creation, where
+                                        every saree tells a story of elegance and grace. Our premium designer sarees are
+                                        crafted with love, blending traditional artistry with contemporary flair.</p>
+                                </div>
+                            </div>
+                            <div class="item features-without-image col-12">
+                                <div class="item-wrapper">
+
+                                    <p class="mbr-text mbr-fonts-style display-7">At Kashvi, we believe that wearing a
+                                        saree is not just about fashion; it's about embracing a legacy. Our collections
+                                        are designed for the modern woman who appreciates the beauty of heritage while
+                                        striding confidently into the future.</p>
+                                </div>
+                            </div>
+                            <div class="item features-without-image col-12">
+                                <div class="item-wrapper">
+
+                                    <p class="mbr-text mbr-fonts-style display-7">Join us on this vibrant journey, and
+                                        let your wardrobe reflect the exquisite craftsmanship and timeless beauty that
+                                        Kashvi Creation stands for.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="list1 cid-uC2PdB2ehl" id="faq-1-uC2PdB2ehl">
+
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-12 col-lg-10 m-auto">
+                    <div class="content">
+                        <div class="row justify-content-center mb-5">
+                            <div class="col-12 content-head">
+                                <div class="mbr-section-head">
+                                    <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-5">
+                                        <strong>Saree Secrets Unveiled</strong>
+                                    </h4>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="bootstrap-accordion_20" class="panel-group accordionStyles accordion" role="tablist"
+                            aria-multiselectable="true">
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <a role="button" class="panel-title collapsed" data-toggle="collapse"
+                                        data-bs-toggle="collapse" data-core="" href="#collapse1_20"
+                                        aria-expanded="false" aria-controls="collapse1">
+                                        <h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-7">What
+                                            makes Kashvi Creation unique?</h6>
+                                        <span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+                                    </a>
+                                </div>
+                                <div id="collapse1_20" class="panel-collapse noScroll collapse" role="tabpanel"
+                                    aria-labelledby="headingOne" data-parent="#accordion"
+                                    data-bs-parent="#bootstrap-accordion_20">
+                                    <div class="panel-body">
+                                        <p class="mbr-fonts-style panel-text display-7">We blend traditional
+                                            craftsmanship with modern aesthetics, creating sarees that tell a story.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <a role="button" class="panel-title collapsed" data-toggle="collapse"
+                                        data-bs-toggle="collapse" data-core="" href="#collapse2_20"
+                                        aria-expanded="false" aria-controls="collapse2">
+                                        <h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-7">How do
+                                            I choose a saree?</h6>
+                                        <span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+                                    </a>
+                                </div>
+                                <div id="collapse2_20" class="panel-collapse noScroll collapse" role="tabpanel"
+                                    aria-labelledby="headingOne" data-parent="#accordion"
+                                    data-bs-parent="#bootstrap-accordion_20">
+                                    <div class="panel-body">
+                                        <p class="mbr-fonts-style panel-text display-7">Consider the occasion, fabric,
+                                            and your personal style. We're here to help!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <a role="button" class="panel-title collapsed" data-toggle="collapse"
+                                        data-bs-toggle="collapse" data-core="" href="#collapse3_20"
+                                        aria-expanded="false" aria-controls="collapse3">
+                                        <h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-7">Can I
+                                            customize my saree?</h6>
+                                        <span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+                                    </a>
+                                </div>
+                                <div id="collapse3_20" class="panel-collapse noScroll collapse" role="tabpanel"
+                                    aria-labelledby="headingOne" data-parent="#accordion"
+                                    data-bs-parent="#bootstrap-accordion_20">
+                                    <div class="panel-body">
+                                        <p class="mbr-fonts-style panel-text display-7">Absolutely! We love creating
+                                            bespoke pieces just for you.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <a role="button" class="panel-title collapsed" data-toggle="collapse"
+                                        data-bs-toggle="collapse" data-core="" href="#collapse4_20"
+                                        aria-expanded="false" aria-controls="collapse4">
+                                        <h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-7">What if
+                                            I need help?</h6>
+                                        <span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+                                    </a>
+                                </div>
+                                <div id="collapse4_20" class="panel-collapse noScroll collapse" role="tabpanel"
+                                    aria-labelledby="headingOne" data-parent="#accordion"
+                                    data-bs-parent="#bootstrap-accordion_20">
+                                    <div class="panel-body">
+                                        <p class="mbr-fonts-style panel-text display-7">Our customer service team is
+                                            just a click away, ready to assist you!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="people05 cid-uC2PdB352O" id="testimonials-6-uC2PdB352O">
+
+
+
+
+        <div class="container">
+            <div class="row mb-5 justify-content-center">
+                <div class="col-12 mb-0 content-head">
+                    <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-5">
+                        <strong>Reviews</strong><strong><br></strong>
+                    </h3>
+
+                </div>
+            </div>
+
+            
+
+            <div class="scroll-container">
+                <div class="marquee" id="marquee">
+                  <!-- The repeated cards will appear here -->
+                  {% for review in all_reviews %}
+                  <div class="review-card">
+                    <h5>{{ review.customer_name }}</h5>
+                    <p>{{ review.description }}</p>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+
+        
+
+
+
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="form5 cid-uC2PdBgxk0" id="contact-form-3-uC2PdBgxk0">
+
+
+        <div class="container" id="get_in_touch" style="padding-top: 3rem;">
+            <div class="row justify-content-center">
+                <div class="col-12 content-head">
+                    <div class="mbr-section-head mb-5">
+                        <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                             <strong>Get In Touch!</strong>
+                        </h3>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 mx-auto mbr-form" data-form-type="formoid">
+                    <form action="/review" method="POST" class="mbr-form form-with-styler" data-form-title="Form Name">
+                        <input type="hidden" name="email" data-form-email="true">
+
+                        <div class="dragArea row">
+                            <div class="col-md col-sm-12 form-group mb-3" data-for="name">
+                                <input type="text" name="name" placeholder="Name" data-form-field="name"
+                                    class="form-control" value="" id="name-contact-form-3-uC2PdBgxk0">
+                            </div>
+                            <div class="col-md col-sm-12 form-group mb-3" data-for="email">
+                                <input type="email" name="email" placeholder="Email" data-form-field="email"
+                                    class="form-control" value="" id="email-contact-form-3-uC2PdBgxk0">
+                            </div>
+                            <div class="col-12 form-group mb-3 mb-3" data-for="url">
+                                <input type="number" name="phone" placeholder="Phone" data-form-field="url"
+                                    class="form-control" value="" id="url-contact-form-3-uC2PdBgxk0">
+                            </div>
+                            <div class="col-12 form-group mb-3" data-for="textarea">
+                                <textarea name="message" placeholder="Message" data-form-field="textarea"
+                                    class="form-control" id="textarea-contact-form-3-uC2PdBgxk0"></textarea>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 align-center mbr-section-btn"><button
+                                    type="submit" class="btn btn-primary display-7"><span
+                                        class="mobi-mbri mobi-mbri-paper-plane mbr-iconfont mbr-iconfont-btn"></span>Send
+                                    Message</button></div>
+                        </div>
+                    </form>
+                    <div id="thank-you-message"
+                        style="display: none; text-align: center; font-size: 20px; font-weight: bold; color: green; margin-top: 20px;">
+                        Thank you! Your message has been submitted successfully.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="contacts03 cid-uC2PdBgj11" id="contacts-11-uC2PdBgj11">
+
+
+
+        <div class="container" id="map" style="padding-top: 4rem;">
+            <div class="row justify-content-center">
+                <div class="col-lg-4">
+                    <div class="col-12 col-md-12">
+                        <h5 class="mbr-section-title mbr-fonts-style mt-0 mb-4 display-2">
+                            <strong>Contact Us</strong>
+                        </h5>
+                        <p class="mbr-section-subtitle mbr-fonts-style mt-0 mb-4 display-7">Phone no.<br>
+                            08873427670<br><br>Address&nbsp;<br> 6124, Millenium Textile Market, Shop No 6115 to, 4,
+                            Bhatena Rd, Udhna Udhyog Nagar, Bhatena, Surat, Gujarat 395002<br></p>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-8 side-features">
+                    <div class="google-map"><iframe frameborder="0" style="border:0"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.3189033516787!2d72.84159400997461!3d21.179486882504953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04f30c2a28475%3A0xad5f81ba586f9f2c!2sKashvi%20Creation!5e0!3m2!1sen!2sin!4v1739013056566!5m2!1sen!2sin"
+                            allowfullscreen=""></iframe></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-bs-version="5.1" class="footer3 cid-uC2PdBhwj4" once="footers" id="footer-3-uC2PdBhwj4">
+
+
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="row-links">
+                    <ul class="header-menu">
+
+
+
+
+                        <li class="header-menu-item mbr-fonts-style display-5">
+                            <a href="#" class="text-white">Home</a>
+                        </li>
+                        <li class="header-menu-item mbr-fonts-style display-5">
+                            <a href="#" class="text-white">About us</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-12 mt-4">
+                    <div class="social-row">
+                        <div class="soc-item">
+                            <a href="https://mobiri.se/" target="_blank">
+                                <span class="mbr-iconfont socicon socicon-facebook display-7"></span>
+                            </a>
+                        </div>
+                        <div class="soc-item">
+                            <a href="https://mobiri.se/" target="_blank">
+                                <span class="mbr-iconfont socicon-twitter socicon"></span>
+                            </a>
+                        </div>
+                        <div class="soc-item">
+                            <a href="https://mobiri.se/" target="_blank">
+                                <span class="mbr-iconfont socicon-instagram socicon"></span>
+                            </a>
+                        </div>
+                        <div class="soc-item">
+                            <a href="https://mobiri.se/" target="_blank">
+                                <span class="mbr-iconfont socicon socicon-linkedin"></span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 mt-5">
+                    <p class="mbr-fonts-style copyright display-7">© 2025 Kashvi Creation. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='parallax/jarallax.js') }}"></script>
+    <script src="{{ url_for('static', filename='smoothscroll/smooth-scroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='ytplayer/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='dropdown/js/navbar-dropdown.js') }}"></script>
+    <script src="{{ url_for('static', filename='scrollgallery/scroll-gallery.js') }}"></script>
+    <script src="{{ url_for('static', filename='vimeoplayer/player.js') }}"></script>
+    <script src="{{ url_for('static', filename='mbr-switch-arrow/mbr-switch-arrow.js') }}"></script>
+    <script src="{{ url_for('static', filename='theme/js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='formoid/formoid.min.js') }}"></script>
+
+    <script>
+        function openModal() {
+            document.getElementById('adminLoginModal').style.display = 'block';
+            document.body.classList.add('modal-open'); // Prevents background scrolling
+        }
+
+        function closeModal() {
+            document.getElementById('adminLoginModal').style.display = 'none';
+            document.body.classList.remove('modal-open'); // Restores scrolling
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function (event) {
+            let modal = document.getElementById('adminLoginModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+
+        // Handle login validation
+        document.getElementById('adminLoginForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            let username = document.getElementById('adminUsername').value;
+            let password = document.getElementById('adminPassword').value;
+
+            // Example validation (Replace with actual authentication logic)
+            if (username === "admin" && password === "admin123") {
+                alert("Login successful!");
+                window.location.href = "/admin_page"; // Redirect to admin page
+            } else {
+                alert("Invalid credentials! Please try again.");
+            }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Periodically detect center card
+        const scrollContainer = document.querySelector('.scroll-container');
+        function updateCenterCard() {
+          if (!scrollContainer) return;
+          const containerCenter = scrollContainer.offsetWidth / 2;
+          let minDistance = Number.MAX_VALUE;
+          let closestCard = null;
+    
+          const cards = document.querySelectorAll('.review-card');
+          cards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const containerLeft = scrollContainer.getBoundingClientRect().left;
+            const cardCenter = (rect.left + rect.right) / 2 - containerLeft;
+            const distance = Math.abs(cardCenter - containerCenter);
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestCard = card;
+            }
+          });
+    
+          // Remove active from all
+          cards.forEach((c) => c.classList.remove('active'));
+          // Add active class to the one closest to center
+          if (closestCard) {
+            closestCard.classList.add('active');
+          }
+        }
+    
+        // Use an interval to continually update
+        setInterval(updateCenterCard, 20);
+      </script>
+
+
+
+
+</body>
+
+</html>
