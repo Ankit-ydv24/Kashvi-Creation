@@ -275,14 +275,45 @@
                                 <input name="name" type="text" class="form-control" id="productName" placeholder="Enter product name" required>
                             </div>
                             <div class="col-md-4">
-                                <label for="productDescription" class="form-label">Product Description</label>
-                                <input name="description" type="text" class="form-control" id="productDescription" placeholder="Enter product description" required>
+                                <label for="select">Saree Variety</label>
+                                <br>
+                                <select name="variety" id="select" style="
+                                padding: 10px;
+                                font-size: 16px;
+                                border-radius: 8px;
+                                border: 2px solid #4A90E2;
+                                background-color: white;
+                                color: #333;
+                                outline: none;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                width:max-content;
+                            " 
+                            onchange="alert('You selected: ' + this.value)">
+                                <option value="All">All</option>
+                                <option value="Banarasi">Banarasi</option>
+                                <option value="Kanjivaram">Kanjivaram</option>
+                                <option value="Patola">Patola</option>
+                                <option value="Chanderi">Chanderi</option>
+                                <option value="Surti">Surti</option>
+                                <option value="Sambalpuri">Sambalpuri</option>
+                                <option value="Tant">Tant</option>
+                                <option value="Kasavu">Kasavu</option>
+                                <option value="Bandhani">Bandhani</option>
+                                <option value="Leheriya">Leheriya</option>
+                            </select>
                             </div>
+                               
                             <div class="col-md-4">
                                 <label for="productPrice" class="form-label">Selling Price</label>
                                 <input name="price" type="number" class="form-control" id="productPrice" placeholder="Enter selling price" required>
                             </div>
                         </div>
+                        <div>
+                            <label for="productDescription" class="form-label">Product Description</label>
+                            <input name="description" type="text" class="form-control" id="productDescription" placeholder="Enter product description" required>
+                        </div>
+                        
                         <div class="row g-3 mt-3">
                             <div class="col-md-8">
                                 <label for="productImage" class="form-label">Product Image</label>
@@ -306,6 +337,7 @@
                                     <th>Product Name</th>
                                     <th>Description</th>
                                     <th>Selling Price</th>
+                                    <th>Variety</th>
                                     <th>Image</th>
                                 </tr>
                             </thead>
@@ -322,6 +354,7 @@
                                     <td>{{ loop.index }}</td> <!-- Automatically incrementing variable -->
                                     <td>{{ product.product_name }}</td>
                                     <td>{{ product.description }}</td>
+                                    <td>{{ product.variety }}</td>
                                     <td>{{ product.selling_price }}</td>
                                     <td><img src="{{ product.product_image }}" alt="Product Image" class="img-fluid rounded" style="max-width: 150px;"></td>
                                 </tr>

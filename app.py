@@ -117,7 +117,7 @@ def addproduct():
     name = request.form['name']
     description = request.form['description']
     price = request.form['price']
-    
+    variety = request.form['variety']
     # Check if image file exists and is allowed
     image_file = request.files.get('image')
     if image_file and allowed_file(image_file.filename):
@@ -133,7 +133,8 @@ def addproduct():
                 product_name=name,
                 product_image=file_path,  # Save the file path
                 selling_price=price,
-                description=description
+                description=description,
+                variety = variety
             )
             session.add(new_product)
             session.commit()
@@ -146,7 +147,21 @@ def addproduct():
     else:
         return "Error: Invalid file format or no file uploaded!"
 
-    return render_template('add_product.html')
+
+@app.route('/shopnow')
+def shopnow():
+    all_product = session.query(Product).all()
+    return render_template('shopnow.html',all_product = all_product)
+
+@app.route('/filter',methods = ['POST'])
+def filter():
+    variety = request.form['filter']
+    if(variety == 'All'):
+        all_product = session.query(Product).all()
+        return render_template('shopnow.html',all_product = all_product)
+    all_product = session.query(Product).filter_by(variety = variety).all()
+    return render_template('shopnow.html',all_product = all_product)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -17,6 +17,7 @@ class Product(Base):
     product_id = Column(Integer, primary_key=True)
     product_name = Column(String(100), nullable=False)
     product_image = Column(String(255))
+    variety = Column(String(20))
     selling_price = Column(DECIMAL(10, 2), nullable=False)
     description = Column(String(500))
     
