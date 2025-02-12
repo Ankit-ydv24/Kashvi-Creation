@@ -29,6 +29,11 @@ session = SessionLocal()
 @app.route('/')
 def hello_world():
     all_reviews = session.query(Review).filter_by(visibility_on_homepage = True).all()
+    return render_template('index.html',all_reviews = all_reviews)
+
+@app.route('/homepage')
+def homepage():
+    all_reviews = session.query(Review).filter_by(visibility_on_homepage = True).all()
     
         
     return render_template('index.html',all_reviews = all_reviews)

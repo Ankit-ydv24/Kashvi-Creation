@@ -254,11 +254,18 @@
         <div class="row">
             <!-- Sidebar -->
             <nav class="col-md-2 sidebar d-flex flex-column">
+                <br>
+                <br>
+                <br>
                 <img src="{{url_for('static',filename = 'images/img-20250204-wa0006-224x224.jpg')}}" alt="Logo"
                     class="logo">
                 <a href="#product-management" class="active">Manage Products</a>
                 <a href="#reviews-management">Manage Reviews</a>
                 <a href="#invoice-management">View Invoices</a>
+                <a href="{{ url_for('homepage') }}" style="font-size: small; font-weight: 100; position: absolute; top: 10px; left: 10px; padding: 2px 5px; background-color: rgb(5, 156, 156); color: white; text-decoration: none; border-radius: 5px;">
+                    &larr; Back to homepage
+                </a>
+                
             </nav>
 
             <!-- Main Content -->

@@ -32,6 +32,11 @@
             margin-bottom: 2rem;
         }
 
+        header p {
+            font-size: 15px;
+            font-weight: 100;
+        }
+
         .nav-bar {
             display: flex;
             justify-content: center;
@@ -43,20 +48,20 @@
         .nav-bar a {
             margin: 0 20px;
             text-decoration: none;
-            color: #904860;
+            color: rgb(8, 132, 132);
             font-weight: bold;
             transition: color 0.3s;
         }
 
         .nav-bar a:hover {
-            color: #6b3460;
+            color: aqua;
         }
 
         .cart-container {
             position: fixed;
             top: 15px;
             right: 20px;
-            background: #904860;
+            background: rgb(68, 201, 201);
             color: white;
             padding: 12px 16px;
             border-radius: 50px;
@@ -71,7 +76,7 @@
         }
 
         .cart-container:hover {
-            background: #6b3460;
+            background: aquamarine;
         }
 
         .cart-container i {
@@ -119,13 +124,13 @@
 
         .product-price {
             font-weight: bold;
-            color: #904860;
+            color: rgb(8, 132, 132);
             margin-top: 5px;
         }
 
 
         .cart-btn {
-            background-color: #904860;
+            background-color: rgb(8, 132, 132);
             color: white;
             border: none;
             padding: 10px 15px;
@@ -135,7 +140,7 @@
         }
 
         .cart-btn:hover {
-            background-color: #6b3460;
+            background-color: aqua;
         }
 
         .footer {
@@ -152,7 +157,7 @@
         }
 
         .modal-header {
-            background-color: #904860;
+            background-color: rgb(8, 132, 132);
             color: white;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -205,14 +210,41 @@
             color: black;
             border-color: aqua;
         }
+
+        
     </style>
+    
 </head>
 
 <body>
-    <header>
-        Kashvi Creation - Fashion & Clothing Store
+    <header style="position: relative; height: 100px;">
+        <!-- Home Button -->
+        <a href="{{ url_for('homepage') }}" style="font-size: small;font-weight: 100;position: absolute; top: 10px; left: 10px;padding: 2px 5px; background-color: rgb(13, 139, 128); color: rgb(215, 209, 209); text-decoration: none; border-radius: 5px;">
+            &larr; Back to homepage
+        </a>
+    
+        <!-- Content Centered in Header -->
+        <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+            <img src="{{ url_for('static', filename='images/img-20250204-wa0006-224x224.jpg') }}" 
+                 style="width: 70px; height: 70px; margin-right: 10px;">
+            <div>
+                <h1>Kashvi Creation</h1>
+                <p style="font-style: italic;">"प्रेम और विश्वास का अनोखा संगम"</p>
+            </div>
+        </div>
     </header>
+    
+    
+    
+
+    <div id="liveAlertPlaceholder"></div>
+
+
+
+
+
     <!-- Add this after your nav element and before the saree grid -->
+
     <div class="container mt-4 p-3 shadow-sm rounded bg-white">
         <div class="d-flex flex-wrap align-items-center justify-content-between">
             <button id="filterButton" class="btn btn-pink d-flex align-items-center px-4 py-2 rounded-pill shadow-sm">
@@ -225,7 +257,7 @@
             <form id="filterForm" action="/filter" method="POST">
                 <input type="hidden" id="filterInput" name="filter" value="">
             </form>
-            
+
             <div id="filterOptions" class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
                 <button class="btn filter-btn" data-filter="All">All</button>
                 <button class="btn filter-btn" data-filter="Banarasi">Banarasi</button>
@@ -244,7 +276,10 @@
 
     <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
         <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
+
     </div>
+
+
 
 
 
@@ -262,10 +297,12 @@
                             {{ product.description[:40] }}{% if product.description|length > 40 %}...{% endif %}
                         </p>
                         <p class="product-price">₹{{ product.selling_price }}</p>
-                        <button class="cart-btn"
+                        <button class="cart-btn" id="liveAlertBtn"
                             onclick="addToCart('{{ product.product_id }}', '{{ product.product_name }}', '{{ product.selling_price }}')">
                             Add to Cart
                         </button>
+
+
                     </div>
                 </div>
             </div>
@@ -290,8 +327,10 @@
                     <div id="cart-items" class="list-group"></div>
                     <div class="mt-3 d-flex justify-content-between">
                         <h5>Total: ₹<span id="cart-total">0</span></h5>
-                        <button class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#checkoutModal">Checkout</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            Checkout
+                        </button>
                     </div>
 
 
@@ -299,6 +338,227 @@
             </div>
         </div>
     </div>
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Customer Info</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3">
+                        <div class="col-md-4">
+                            <label for="validationDefault01" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="validationDefault01"  required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationDefault02" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="validationDefault02"  required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="validationDefault03" class="form-label">City</label>
+                            <input type="text" class="form-control" id="validationDefault03" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault04" class="form-label">State</label>
+                            <select class="form-select" id="validationDefault04" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option value="AndhraPradesh">Andhra Pradesh</option>
+                                <option value="ArunachalPradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="HimachalPradesh">Himachal Pradesh</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="MadhyaPradesh">Madhya Pradesh</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="TamilNadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="UttarPradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="WestBengal">West Bengal</option>
+                                <option value="AndamanandNicobar">Andaman and Nicobar Islands</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="DadraandNagarHaveliandDamanandDiu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Puducherry">Puducherry</option>
+                                <option value="Ladakh">Ladakh</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="JammuandKashmir">Jammu and Kashmir</option>
+                            </select>
+                            
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationDefault05" class="form-label">Zip</label>
+                            <input type="text" class="form-control" id="validationDefault05" required>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                                <label class="form-check-label" for="invalidCheck2">
+                                    Agree to terms and conditions
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="container py-5">
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">Proceed to payment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="history.go(0);">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    
+
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="amount-display mb-4">
+                        <h3 class="text-center">Total Amount: ₹<span id="totalinpayment">0</span></h3>
+
+                        
+                    </div>
+                    
+                    <ul class="nav nav-pills mb-4" id="paymentTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#cod">Cash on Delivery</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#upi">UPI Payment</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#card">Card Payment</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#netbanking">Net Banking</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="paymentTabContent">
+                        <div class="tab-pane fade show active" id="cod">
+                            <div class="cod-content p-3">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="codConfirm">
+                                    <label class="form-check-label" for="codConfirm">
+                                        I agree to pay ₹<span id="totalinpaymentd">0</span> on delivery
+                                    </label>
+                                    
+                                </div>
+                                <div class="alert alert-info">
+                                    <small>Cash on Delivery is available for your location. Delivery within 3-5 business days.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="upi">
+                            <div class="upi-content p-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Enter UPI ID</label>
+                                    <input type="text" class="form-control" placeholder="username@bank">
+                                </div>
+                                <hr>
+                                <h3>OR</h3>
+                                <hr>
+
+                                <div class="text-center mb-3">
+                                    <p>Scan QR code</p>
+                                    <img src="{{ url_for('static', filename='images/qr.png') }}" alt="QR Code" class="qr-code">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="card">
+                            <div class="card-content p-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Card Number</label>
+                                    <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="16">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cardholder Name</label>
+                                    <input type="text" class="form-control" placeholder="John Doe">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Expiry Date</label>
+                                        <input type="text" class="form-control" placeholder="MM/YY">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">CVV</label>
+                                        <input type="password" class="form-control" placeholder="123" maxlength="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="netbanking">
+                            <div class="netbanking-content p-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Select Bank</label>
+                                    <select class="form-select">
+                                        <option selected disabled>Choose your bank</option>
+                                        <option>State Bank</option>
+                                        <option>HDFC Bank</option>
+                                        <option>ICICI Bank</option>
+                                        <option>Axis Bank</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-badges text-center mt-4">
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-shield-check"></i> 100% Secure
+                        </span>
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-lock"></i> SSL Encrypted
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="history.go(0);">Cancel</button>
+                    <button type="button" class="btn btn-primary">Proceed to Pay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+
 
     <!-- ✅ JavaScript Fixes -->
     <script>
@@ -313,7 +573,7 @@
             }
             document.getElementById("cart-count").innerText = Object.keys(cart).length;
             updateCartModal();
-            alert(`${productName} has been added to your cart!`);
+
         }
 
         function updateCartModal() {
@@ -342,6 +602,8 @@
 
             // Update total price
             document.getElementById("cart-total").innerText = totalAmount;
+            document.getElementById("totalinpayment").innerText = totalAmount;
+            document.getElementById("totalinpaymentd").innerText = totalAmount;
         }
 
 
@@ -370,6 +632,34 @@
             });
         });
     </script>
+    <script>
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        const appendAlert = (message, type) => {
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
+        }
+
+        const alertTrigger = document.getElementById('liveAlertBtn')
+        if (alertTrigger) {
+            alertTrigger.addEventListener('click', () => {
+                appendAlert('Item has been added to your Cart!', 'success')
+            })
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function reloadPage() {
+          location.reload();
+        }
+      </script>
 
 </body>
 
