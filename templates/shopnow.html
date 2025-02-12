@@ -142,44 +142,6 @@
         .cart-btn:hover {
             background-color: aqua;
         }
-
-        .footer {
-            background-color: #1b262c;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-        }
-
-        .modal-content {
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal-header {
-            background-color: rgb(8, 132, 132);
-            color: white;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        .modal-body {
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .list-group-item {
-            border: none;
-            background: #f8f8f8;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 5px;
-        }
-
-        .btn-close {
-            color: white;
-        }
     </style>
     <style>
         .btn-pink {
@@ -210,32 +172,200 @@
             color: black;
             border-color: aqua;
         }
-
-        
     </style>
-    
+    <style>
+        /* Modern modal styling */
+        .modal-content {
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+
+        .modal-header {
+            background: #008080;
+            color: #fff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 15px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .modal-footer {
+            border-top: none;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        /* Form styling */
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #008080;
+            box-shadow: 0 0 8px #008080;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #008080;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #333333;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: #333333;
+        }
+
+        /* Checkbox Styling */
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 1px solid #008080;
+        }
+
+        .form-check-input:checked {
+            background-color: #008080;
+            border-color: #008080;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .modal-content {
+                width: 95%;
+                margin: auto;
+            }
+        }
+
+        /* Payment tabs styling */
+        .nav-pills .nav-link {
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-weight: 600;
+            color: #005f73;
+            /* Deep aqua-blue */
+            background: #e0f7fa;
+            /* Light aqua */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-pills .nav-link.active {
+            background: #008080;
+            /* Bright aqua */
+            color: white;
+            box-shadow: 0 3px 6px rgba(0, 188, 212, 0.3);
+        }
+
+        .nav-pills .nav-link:hover {
+            background: #00acc1;
+            /* Slightly darker aqua */
+            color: white;
+        }
+
+        .nav-pills {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .nav-item {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        @media (max-width: 576px) {
+            .nav-pills {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+        }
+
+        .back-btn {
+            font-size: 14px;
+            font-weight: 500;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 6px 10px;
+            background-color: #0d8b80;
+            /* Aqua tone */
+            color: #f8f9fa;
+            /* Light grayish-white */
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .back-btn:hover {
+            background-color: #0a6f65;
+            /* Darker shade on hover */
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
 </head>
 
 <body>
     <header style="position: relative; height: 100px;">
         <!-- Home Button -->
-        <a href="{{ url_for('homepage') }}" style="font-size: small;font-weight: 100;position: absolute; top: 10px; left: 10px;padding: 2px 5px; background-color: rgb(13, 139, 128); color: rgb(215, 209, 209); text-decoration: none; border-radius: 5px;">
+        <a href="{{ url_for('homepage') }}" class="back-btn">
             &larr; Back to homepage
         </a>
-    
+
+
         <!-- Content Centered in Header -->
         <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-            <img src="{{ url_for('static', filename='images/img-20250204-wa0006-224x224.jpg') }}" 
-                 style="width: 70px; height: 70px; margin-right: 10px;">
+            <img src="{{ url_for('static', filename='images/img-20250204-wa0006-224x224.jpg') }}"
+                style="width: 70px; height: 70px; margin-right: 10px;">
             <div>
                 <h1>Kashvi Creation</h1>
                 <p style="font-style: italic;">"प्रेम और विश्वास का अनोखा संगम"</p>
             </div>
         </div>
     </header>
-    
-    
-    
+
+
+
 
     <div id="liveAlertPlaceholder"></div>
 
@@ -285,6 +415,9 @@
 
     <div class="container">
         <div class="row" id="product-list">
+            {% if all_product|length == 0 %}
+                <h1>No Product Available Yet</h1>
+            {% endif %}
             {% for product in all_product %}
             <div class="col-md-3" style="margin-top: 2rem;">
                 <div class="product-card">
@@ -316,7 +449,7 @@
     </footer>
 
     <!-- Cart Modal -->
-    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal fade" id="cartModal" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -343,31 +476,36 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Customer Info</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="history.go(0);"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3">
+                    <form class="row g-3" method="POST" action="/add_customer">
                         <div class="col-md-4">
                             <label for="validationDefault01" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="validationDefault01"  required>
+                            <input type="text" class="form-control" id="validationDefault01" name="name" required>
                         </div>
                         <div class="col-md-4">
                             <label for="validationDefault02" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="validationDefault02"  required>
+                            <input type="email" class="form-control" id="validationDefault02" name="email" required>
                         </div>
-                        
+                        <div class="col-md-5">
+                            <label for="validationDefault02" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="validationDefault02" name="address" required>
+                        </div>
+
                         <div class="col-md-6">
                             <label for="validationDefault03" class="form-label">City</label>
-                            <input type="text" class="form-control" id="validationDefault03" required>
+                            <input type="text" class="form-control" id="validationDefault03" name="city" required>
                         </div>
                         <div class="col-md-3">
                             <label for="validationDefault04" class="form-label">State</label>
-                            <select class="form-select" id="validationDefault04" required>
+                            <select class="form-select" id="validationDefault04" name="state" required>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="AndhraPradesh">Andhra Pradesh</option>
                                 <option value="ArunachalPradesh">Arunachal Pradesh</option>
@@ -399,7 +537,8 @@
                                 <option value="WestBengal">West Bengal</option>
                                 <option value="AndamanandNicobar">Andaman and Nicobar Islands</option>
                                 <option value="Chandigarh">Chandigarh</option>
-                                <option value="DadraandNagarHaveliandDamanandDiu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                <option value="DadraandNagarHaveliandDamanandDiu">Dadra and Nagar Haveli and Daman and
+                                    Diu</option>
                                 <option value="Lakshadweep">Lakshadweep</option>
                                 <option value="Delhi">Delhi</option>
                                 <option value="Puducherry">Puducherry</option>
@@ -407,12 +546,14 @@
                                 <option value="Lakshadweep">Lakshadweep</option>
                                 <option value="JammuandKashmir">Jammu and Kashmir</option>
                             </select>
-                            
+
                         </div>
                         <div class="col-md-3">
                             <label for="validationDefault05" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="validationDefault05" required>
+                            <input name="zip" type="text" class="form-control" id="validationDefault05" required>
                         </div>
+                        <input type="hidden" id="cartProductData" name="cart_product_data">
+
                         <div class="col-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
@@ -423,38 +564,42 @@
                         </div>
                         <div class="col-12">
                             <div class="container py-5">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">Proceed to payment</button>
+                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#paymentModal">Proceed to payment</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="history.go(0);">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        onclick="history.go(0);">Close</button>
 
                 </div>
             </div>
         </div>
     </div>
- 
-    
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+
+
+    <div class="modal fade" id="paymentModal" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="history.go(0);"></button>
                 </div>
                 <div class="modal-body">
                     <div class="amount-display mb-4">
                         <h3 class="text-center">Total Amount: ₹<span id="totalinpayment">0</span></h3>
 
-                        
+
                     </div>
-                    
+
                     <ul class="nav nav-pills mb-4" id="paymentTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#cod">Cash on Delivery</button>
+                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#cod">Cash on
+                                Delivery</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="pill" data-bs-target="#upi">UPI Payment</button>
@@ -463,7 +608,8 @@
                             <button class="nav-link" data-bs-toggle="pill" data-bs-target="#card">Card Payment</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#netbanking">Net Banking</button>
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#netbanking">Net
+                                Banking</button>
                         </li>
                     </ul>
 
@@ -475,10 +621,11 @@
                                     <label class="form-check-label" for="codConfirm">
                                         I agree to pay ₹<span id="totalinpaymentd">0</span> on delivery
                                     </label>
-                                    
+
                                 </div>
                                 <div class="alert alert-info">
-                                    <small>Cash on Delivery is available for your location. Delivery within 3-5 business days.</small>
+                                    <small>Cash on Delivery is available for your location. Delivery within 3-5 business
+                                        days.</small>
                                 </div>
                             </div>
                         </div>
@@ -495,7 +642,8 @@
 
                                 <div class="text-center mb-3">
                                     <p>Scan QR code</p>
-                                    <img src="{{ url_for('static', filename='images/qr.png') }}" alt="QR Code" class="qr-code">
+                                    <img src="{{ url_for('static', filename='images/qr.png') }}" alt="QR Code"
+                                        class="qr-code">
                                 </div>
                             </div>
                         </div>
@@ -504,7 +652,8 @@
                             <div class="card-content p-3">
                                 <div class="mb-3">
                                     <label class="form-label">Card Number</label>
-                                    <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="16">
+                                    <input type="text" class="form-control" placeholder="1234 5678 9012 3456"
+                                        maxlength="16">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Cardholder Name</label>
@@ -549,20 +698,22 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="history.go(0);">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        onclick="history.go(0);">Cancel</button>
                     <button type="button" class="btn btn-primary">Proceed to Pay</button>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 
 
 
     <!-- ✅ JavaScript Fixes -->
     <script>
         let cart = {};
+
 
         function addToCart(productId, productName, price) {
             productId = String(productId);  // Ensure productId is a string
@@ -575,6 +726,7 @@
             updateCartModal();
 
         }
+
 
         function updateCartModal() {
             let cartList = document.getElementById("cart-items");
@@ -617,7 +769,20 @@
             }
             document.getElementById("cart-count").innerText = Object.keys(cart).length;
             updateCartModal();
+
         }
+        document.querySelector(".btn-primary[data-bs-toggle='modal']").addEventListener("click", function () {
+            let cartProductData = {};
+
+            // Loop through cart and store {product_id: quantity}
+            Object.keys(cart).forEach(productId => {
+                cartProductData[productId] = cart[productId].quantity;
+            });
+
+            // Store as JSON string in hidden input
+            document.getElementById("cartProductData").value = JSON.stringify(cartProductData);
+        });
+
     </script>
     <script>
         document.querySelectorAll(".filter-btn").forEach(button => {
@@ -657,9 +822,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function reloadPage() {
-          location.reload();
+            location.reload();
         }
-      </script>
+    </script>
+    
 
 </body>
 

@@ -9,15 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
-       
         body {
-            background-color: #f5f5f5;
+            background-color: wheat;
             font-family: 'Arial', sans-serif;
         }
 
         .sidebar {
             min-height: 100vh;
-            background-color: #343a40;
+            background-color: #333333;
             color: white;
         }
 
@@ -34,7 +33,8 @@
         }
 
         .sidebar a.active {
-            background-color: #007bff;
+            background-color: #008080;
+
         }
 
         .content {
@@ -142,109 +142,222 @@
             transform: scale(1.05);
             transition: all 0.3s ease-in-out;
         }
-    
+
         .table-row-hover:hover {
-            background-color: #f0f8ff;
+            background-color: rgb(249, 198, 102);
             transition: background-color 0.3s ease;
         }
-    
+
         /* Custom table styles */
-        .table th, .table td {
+        .table th,
+        .table td {
             vertical-align: middle;
             text-align: center;
         }
-    
+
         .table td img {
             max-height: 150px;
             object-fit: cover;
         }
-    
+
         /* Form styling */
         #productForm {
             transition: box-shadow 0.3s ease;
         }
-    
+
         #productForm:hover {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-    
-        /* Button hover effect */
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-    
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-    
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .table img {
-                max-width: 100px;
-            }
         }
     </style>
     <style>
         /* Animations */
-        .transform-hover:hover {
-            transform: scale(1.05);
-            transition: all 0.3s ease-in-out;
-        }
-    
-        .table-row-hover:hover {
-            background-color: #f0f8ff;
-            transition: background-color 0.3s ease;
-        }
-    
+
+
+
+
         /* Custom table styles */
-        .table th, .table td {
+        .table th,
+        .table td {
             vertical-align: middle;
             text-align: center;
         }
-    
+
         /* Form styling */
         .table td button {
             transition: box-shadow 0.3s ease;
         }
-    
+
         .table td button:hover {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-    
+
         /* Badge styling */
         .badge {
             font-size: 14px;
             font-weight: bold;
         }
-    
+
         /* Button hover effect */
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #008080;
+            border-color: #001F3F;
         }
-    
+
         .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
+            background-color: #008080;
+            border-color: #001F3F;
         }
-    
+
         .btn-warning {
             background-color: rgb(164, 164, 1);
             border-color: rgb(164, 164, 1);
         }
-    
+
         .btn-warning:hover {
             background-color: rgb(145, 145, 0);
             border-color: rgb(145, 145, 0);
         }
-    
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .table img {
                 max-width: 100px;
             }
+        }
+
+        .back-btn {
+            font-size: 14px;
+            font-weight: 500;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 6px 10px;
+            background-color: #0d8b80;
+            /* Aqua tone */
+            color: #f8f9fa;
+            /* Light grayish-white */
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .back-btn:hover {
+            background-color: #0a6f65;
+            /* Darker shade on hover */
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Common Section Styling --- */
+        .section-container {
+            background: #f1f8fc;
+            /* Soft Blueish Background */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Table Styling */
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+        }
+
+        /* Table Header */
+        .table thead tr {
+            background-color: #0288d1;
+            /* Deep Blue */
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Table Rows */
+        .table tbody tr {
+            background-color: #ffffff;
+            /* White Background */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hover Effect */
+        .table tbody tr:hover {
+            background-color: #e1f5fe;
+            /* Light Aqua Tint */
+            transform: scale(1.01);
+        }
+
+        /* Badge Styling */
+        .badge {
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        /* --- Buttons Styling --- */
+        .btn {
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Modern Button Hover Effect */
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Primary Button */
+        .btn-primary {
+            background: #007bff;
+            border: none;
+        }
+
+        /* Hide from Homepage Button - Updated */
+        .btn-hide {
+            background: #ff5252;
+            /* Red */
+            color: white;
+            border: none;
+        }
+
+        .btn-hide:hover {
+            background: #d32f2f;
+        }
+
+        /* Add to Homepage Button */
+        .btn-show {
+            background: #4caf50;
+            /* Green */
+            color: white;
+            border: none;
+        }
+
+        .btn-show:hover {
+            background: #388e3c;
+        }
+
+        /* Delete Button */
+        .btn-danger {
+            background: #d32f2f;
+            border: none;
+        }
+
+        /* Action Buttons Layout */
+        .d-flex {
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* --- Product List Specific Styles --- */
+        .product-list-container {
+            background: #ffffff;
+        }
+
+        /* --- Review Management Specific Styles --- */
+        .reviews-container {
+            background: #ffffff;
         }
     </style>
 </head>
@@ -262,24 +375,28 @@
                 <a href="#product-management" class="active">Manage Products</a>
                 <a href="#reviews-management">Manage Reviews</a>
                 <a href="#invoice-management">View Invoices</a>
-                <a href="{{ url_for('homepage') }}" style="font-size: small; font-weight: 100; position: absolute; top: 10px; left: 10px; padding: 2px 5px; background-color: rgb(5, 156, 156); color: white; text-decoration: none; border-radius: 5px;">
+                <a href="{{ url_for('homepage') }}" class="back-btn">
                     &larr; Back to homepage
                 </a>
-                
+
+
             </nav>
 
             <!-- Main Content -->
             <main class="col-md-10 content fade-in">
                 <!-- Product Management Section -->
                 <section id="product-management" class="container my-5">
-                    <h2 class="text-center text-primary mb-4">Manage Products</h2>
-                    
+                    <h2 class="text-center text-muted mb-4">Manage Products</h2>
+
                     <!-- Product Form -->
-                    <form id="productForm" class="mb-4 p-4 border rounded shadow-sm bg-light" method="post" action="/addproduct" enctype="multipart/form-data">
+                    <form id="productForm" class="mb-4 p-4 border rounded shadow-lg "
+                        style="background-color: rgb(254, 210, 127);" method="post" action="/addproduct"
+                        enctype="multipart/form-data">
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <label for="productName" class="form-label">Product Name</label>
-                                <input name="name" type="text" class="form-control" id="productName" placeholder="Enter product name" required>
+                                <input name="name" type="text" class="form-control" id="productName"
+                                    placeholder="Enter product name" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="select">Saree Variety</label>
@@ -295,86 +412,94 @@
                                 cursor: pointer;
                                 transition: all 0.3s ease;
                                 width:max-content;
-                            " 
-                            onchange="alert('You selected: ' + this.value)">
-                                <option value="All">All</option>
-                                <option value="Banarasi">Banarasi</option>
-                                <option value="Kanjivaram">Kanjivaram</option>
-                                <option value="Patola">Patola</option>
-                                <option value="Chanderi">Chanderi</option>
-                                <option value="Surti">Surti</option>
-                                <option value="Sambalpuri">Sambalpuri</option>
-                                <option value="Tant">Tant</option>
-                                <option value="Kasavu">Kasavu</option>
-                                <option value="Bandhani">Bandhani</option>
-                                <option value="Leheriya">Leheriya</option>
-                            </select>
+                            " onchange="alert('You selected: ' + this.value)">
+                                    <option value="All">All</option>
+                                    <option value="Banarasi">Banarasi</option>
+                                    <option value="Kanjivaram">Kanjivaram</option>
+                                    <option value="Patola">Patola</option>
+                                    <option value="Chanderi">Chanderi</option>
+                                    <option value="Surti">Surti</option>
+                                    <option value="Sambalpuri">Sambalpuri</option>
+                                    <option value="Tant">Tant</option>
+                                    <option value="Kasavu">Kasavu</option>
+                                    <option value="Bandhani">Bandhani</option>
+                                    <option value="Leheriya">Leheriya</option>
+                                </select>
                             </div>
-                               
+
                             <div class="col-md-4">
                                 <label for="productPrice" class="form-label">Selling Price</label>
-                                <input name="price" type="number" class="form-control" id="productPrice" placeholder="Enter selling price" required>
+                                <input name="price" type="number" class="form-control" id="productPrice"
+                                    placeholder="Enter selling price" required>
                             </div>
                         </div>
                         <div>
                             <label for="productDescription" class="form-label">Product Description</label>
-                            <input name="description" type="text" class="form-control" id="productDescription" placeholder="Enter product description" required>
+                            <input name="description" type="text" class="form-control" id="productDescription"
+                                placeholder="Enter product description" required>
                         </div>
-                        
+
                         <div class="row g-3 mt-3">
                             <div class="col-md-8">
                                 <label for="productImage" class="form-label">Product Image</label>
-                                <input name="image" type="file" class="form-control" id="productImage" accept="image/*" required>
+                                <input name="image" type="file" class="form-control" id="productImage" accept="image/*"
+                                    required>
                             </div>
                             <div class="col-md-4 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary w-100 shadow-lg transform-hover">Add Product</button>
+                                <button type="submit" class="btn btn-primary w-100 shadow-lg transform-hover">Add
+                                    Product</button>
                             </div>
                         </div>
                     </form>
-                
-                    <hr class="my-4">
-                    
-                    <!-- Product List -->
-                    <h4 class="text-center text-muted">Product List</h4>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead>
-                                <tr class="bg-info text-white">
-                                    <th>#</th>
-                                    <th>Product Name</th>
-                                    <th>Description</th>
-                                    <th>Selling Price</th>
-                                    <th>Variety</th>
-                                    <th>Image</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if all_products|length == 0 %}
-                                <tr>
-                                    <td colspan="5" class="text-center text-danger">
-                                        <h3>No products found.</h3>
-                                    </td>
-                                </tr>
-                                {% else %}
-                                {% for product in all_products %}
-                                <tr class="table-row-hover">
-                                    <td>{{ loop.index }}</td> <!-- Automatically incrementing variable -->
-                                    <td>{{ product.product_name }}</td>
-                                    <td>{{ product.description }}</td>
-                                    <td>{{ product.variety }}</td>
-                                    <td>{{ product.selling_price }}</td>
-                                    <td><img src="{{ product.product_image }}" alt="Product Image" class="img-fluid rounded" style="max-width: 150px;"></td>
-                                </tr>
-                                {% endfor %}
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
 
+                   
+
+                    <!-- Product List -->
+                    <section id="product-list" class="section-container product-list-container">
+                        <h4 class="text-center text-muted">Product List</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered">
+                                <table class="table table-striped table-hover table-bordered" style="border-radius: 20px;">
+                                    <thead>
+                                        <tr class="bg-info text-white">
+                                            <th>#</th>
+                                            <th>Product Name</th>
+                                            <th>Description</th>
+                                            <th>Variety</th>
+                                            <th>Selling Price</th>
+                                            <th>Image</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if all_products|length == 0 %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-danger">
+                                                <h3>No products found.</h3>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        {% for product in all_products %}
+                                        <tr class="table-row-hover" style="background-color: rgb(254, 210, 127);">
+                                            <td>{{ loop.index }}</td> <!-- Automatically incrementing variable -->
+                                            <td>{{ product.product_name }}</td>
+                                            <td>{{ product.description }}</td>
+                                            <td>{{ product.variety }}</td>
+                                            <td>{{ product.selling_price }}</td>
+                                            <td><img src="{{ product.product_image }}" alt="Product Image"
+                                                    class="img-fluid rounded" style="max-width: 150px;"></td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </table>
+                        </div>
+                    </section>
+                    
+                    <hr class="my-4">
                 <!-- Reviews Management Section -->
                 <section id="reviews-management" class="container mt-5">
-                    <h2 class="text-center text-primary mb-4">Manage Reviews</h2>
+                    <h2 class="text-center text-muted mb-4">Manage Reviews</h2>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered">
                             <thead class="bg-info text-white">
@@ -399,15 +524,23 @@
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <form action="{{ url_for('toggle_visibility', review_id=review.review_id) }}" method="POST" class="me-2">
+                                            <form
+                                                action="{{ url_for('toggle_visibility', review_id=review.review_id) }}"
+                                                method="POST" class="me-2">
                                                 {% if review.visibility_on_homepage %}
-                                                <button type="submit" class="btn btn-warning shadow-lg transform-hover">Hide from Homepage</button>
+                                                <button type="submit"
+                                                    class="btn btn-warning shadow-lg transform-hover">Hide from
+                                                    Homepage</button>
                                                 {% else %}
-                                                <button type="submit" class="btn btn-primary shadow-lg transform-hover">Add to Homepage</button>
+                                                <button type="submit"
+                                                    class="btn btn-primary shadow-lg transform-hover">Add to
+                                                    Homepage</button>
                                                 {% endif %}
                                             </form>
-                                            <form action="{{ url_for('delete_review', review_id=review.review_id) }}" method="POST" style="display:inline;">
-                                                <button type="submit" class="btn btn-danger shadow-lg transform-hover" onclick="return confirm('Are you sure you want to delete this review?');">Delete</button>
+                                            <form action="{{ url_for('delete_review', review_id=review.review_id) }}"
+                                                method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger shadow-lg transform-hover"
+                                                    onclick="return confirm('Are you sure you want to delete this review?');">Delete</button>
                                             </form>
                                         </div>
                                     </td>
@@ -417,10 +550,10 @@
                         </table>
                     </div>
                 </section>
-                
+                <hr class="my-4">
                 <!-- Invoice Management Section -->
                 <section id="invoice-management" class="container mt-5">
-                    <h2 class="text-center text-primary mb-4">View Invoices</h2>
+                    <h2 class="text-center text-muted mb-4">View Invoices</h2>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered">
                             <thead class="bg-info text-white">
@@ -443,7 +576,8 @@
                                     <td>2025-02-10</td>
                                     <td>
                                         <button class="btn btn-primary btn-sm shadow-lg transform-hover">View</button>
-                                        <button class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
+                                        <button
+                                            class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
                                     </td>
                                 </tr>
                                 <tr class="table-row-hover">
@@ -454,7 +588,8 @@
                                     <td>2025-02-10</td>
                                     <td>
                                         <button class="btn btn-primary btn-sm shadow-lg transform-hover">View</button>
-                                        <button class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
+                                        <button
+                                            class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
                                     </td>
                                 </tr>
                             </tbody>

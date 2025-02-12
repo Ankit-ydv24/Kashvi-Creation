@@ -11,6 +11,16 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+class Review(Base):
+    __tablename__ = 'reviews'
+    
+    review_id = Column(Integer, primary_key=True)
+    customer_name = Column(String(30), nullable=False)
+    description = Column(String(500))
+    visibility_on_homepage = Column(Boolean, default=False)
+    
+    
+
 class Product(Base):
     __tablename__ = 'products'
     
@@ -23,30 +33,25 @@ class Product(Base):
     
     # Relationships
     invoice_items = relationship('InvoiceItem', back_populates='product')
-    cart_details = relationship('CartDetail', back_populates='product')
+  
 
 class Customer(Base):
     __tablename__ = 'customers'
     
     customer_id = Column(Integer, primary_key=True)
     username = Column(String(50), unique=True, nullable=False)
-    password = Column(String(255), nullable=False)  # Should be hashed
+    city = Column(String(50), unique=True, nullable=False)
+    state = Column(String(50), unique=True, nullable=False)
+    address = Column(String(100), unique=True, nullable=False)
     email = Column(String(100), unique=True, nullable=False)
+    zip = Column(String(100), unique=True, nullable=False)
     
     # Relationships
 
     invoices = relationship('Invoice', back_populates='customer')
-    carts = relationship('Cart', back_populates='customer')
+  
 
-class Review(Base):
-    __tablename__ = 'reviews'
-    
-    review_id = Column(Integer, primary_key=True)
-    customer_name = Column(String(30), nullable=False)
-    description = Column(String(500))
-    visibility_on_homepage = Column(Boolean, default=False)
-    
-    
+
     
 
 class Invoice(Base):
@@ -74,30 +79,6 @@ class InvoiceItem(Base):
     invoice = relationship('Invoice', back_populates='invoice_items')
     product = relationship('Product', back_populates='invoice_items')
 
-class Cart(Base):
-    __tablename__ = 'carts'
-    
-    cart_id = Column(Integer, primary_key=True)
-    customer_id = Column(Integer, ForeignKey('customers.customer_id'), nullable=False)
-    date_placed = Column(DateTime, default=datetime.utcnow)
-    
-    # Relationships
-    customer = relationship('Customer', back_populates='carts')
-    cart_details = relationship('CartDetail', back_populates='cart')
-
-class CartDetail(Base):
-    __tablename__ = 'cart_details'
-    
-    cart_detail_id = Column(Integer, primary_key=True)
-    cart_id = Column(Integer, ForeignKey('carts.cart_id'), nullable=False)
-    shop_id = Column(Integer, nullable=False)
-    product_id = Column(Integer, ForeignKey('products.product_id'), nullable=False)
-    quantity = Column(Integer, nullable=False)
-    date_add = Column(DateTime, default=datetime.utcnow)
-    
-    # Relationships
-    cart = relationship('Cart', back_populates='cart_details')
-    product = relationship('Product', back_populates='cart_details')
 
 def init_db():
     # Replace with your actual database URL

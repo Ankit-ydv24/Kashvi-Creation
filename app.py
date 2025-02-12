@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from flask_sqlalchemy import SQLAlchemy
 from db import engine
 from werkzeug.utils import secure_filename
+from sqlalchemy.exc import IntegrityError
 
 
 
@@ -153,6 +154,7 @@ def addproduct():
         return "Error: Invalid file format or no file uploaded!"
 
 
+
 @app.route('/shopnow')
 def shopnow():
     all_product = session.query(Product).all()
@@ -166,6 +168,72 @@ def filter():
         return render_template('shopnow.html',all_product = all_product)
     all_product = session.query(Product).filter_by(variety = variety).all()
     return render_template('shopnow.html',all_product = all_product)
+
+@app.route('/add_customer', methods=['POST'])
+def add_customer():
+    session = SessionLocal()
+
+    try:
+        # Extract customer details and cart data
+        name = request.form.get('name')
+        email = request.form.get('email')
+        address = request.form.get('address')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zip_code = request.form.get('zip')
+        
+        cart_data = request.form.get('cart_product_data')
+        cart_data = {} if not cart_data else eval(cart_data)  # Convert string to dictionary
+
+        if not cart_data:
+            return jsonify({"error": "Cart is empty"}), 400
+
+        # Process customer and order (same logic as before)
+        customer = session.query(Customer).filter_by(email=email).first()
+        if not customer:
+            customer = Customer(username=name, email=email, address=address, city=city, state=state, zip=zip_code)
+            session.add(customer)
+            session.commit()
+
+        total_amount = 0
+        invoice_items = []
+        for product_id, quantity in cart_data.items():
+            product = session.query(Product).filter_by(product_id=int(product_id)).first()
+            if not product:
+                return jsonify({"error": f"Product with ID {product_id} not found"}), 400
+
+            unit_price = float(product.selling_price)
+            total_amount += unit_price * quantity
+            invoice_items.append(InvoiceItem(
+                product_id=int(product_id),
+                quantity=quantity,
+                unit_price=unit_price
+            ))
+
+        invoice = Invoice(customer_id=customer.customer_id, total_amount=total_amount)
+        session.add(invoice)
+        session.commit()
+
+        for item in invoice_items:
+            item.invoice_id = invoice.invoice_id
+            session.add(item)
+
+        session.commit()
+
+        # Return a response back to the frontend without redirecting
+        return jsonify({
+            "message": "Order placed successfully",
+            "invoice_id": invoice.invoice_id,
+            "total_amount": total_amount
+        })
+
+    except IntegrityError:
+        session.rollback()
+        return jsonify({"error": "Database error"}), 500
+
+    finally:
+        session.close()
+
 
 
 if __name__ == '__main__':
