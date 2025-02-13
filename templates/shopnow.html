@@ -588,18 +588,11 @@
                         </div>
                         <input type="hidden" id="cartProductData" name="cart_product_data">
 
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                                <label class="form-check-label" for="invalidCheck2">
-                                    Agree to terms and conditions
-                                </label>
-                            </div>
-                        </div>
+                        
                         <div class="col-12">
                             <div class="container py-5">
                                 <button class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#paymentModal">Proceed to payment</button>
+                                    data-bs-target="#paymentModal" >Proceed to payment</button>
                             </div>
                         </div>
                     </form>
@@ -625,7 +618,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="amount-display mb-4">
-                        <h3 class="text-center">Total Amount: ₹<span id="totalinpayment">0</span></h3>
+                        <h3 class="text-center">Thank you for choosing KASHVI CREATION</h3>
+                        <h4 class="text-center">"प्रेम और विश्वास का अनोखा संगम"</h4>
 
 
                     </div>
@@ -652,9 +646,7 @@
                             <div class="cod-content p-3">
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" id="codConfirm">
-                                    <label class="form-check-label" for="codConfirm">
-                                        I agree to pay ₹<span id="totalinpaymentd">0</span> on delivery
-                                    </label>
+                                    
 
                                 </div>
                                 <div class="alert alert-info">
@@ -734,7 +726,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeAndResetModals()"
                         data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Proceed to Pay</button>
+                        <a href="/generate_invoice/" class="btn btn-primary btn-sm"
+                        target="_blank" id="generate_invoice" onclick="update()" >Generate Invoice</a>
                 </div>
             </div>
         </div>
@@ -876,6 +869,12 @@
             // Reset the cart
 
         }
+        function update(){
+            setTimeout(() => {
+                window.location.href = "{{ url_for('shopnow') }}";
+            }, 2); // Adjust delay as needed
+        }
+        
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -884,6 +883,10 @@
                 // Open the modal
                 var myModal = new bootstrap.Modal(document.getElementById('paymentModal'));
                 myModal.show();
+            }
+            if(urlParams.get('invoice')){
+                const curr = document.getElementById('generate_invoice');
+                curr.href += urlParams.get('invoice')
             }
         });
         document.querySelector(".btn-primary[data-bs-toggle='modal']").addEventListener("click", function () {

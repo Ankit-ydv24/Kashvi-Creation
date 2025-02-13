@@ -568,7 +568,7 @@
                     <!-- Invoice Management Section -->
                     <section id="invoice-management" class="container mt-5">
                         <h2 class="text-center text-muted mb-4">View Invoices</h2>
-                        <div class="table-responsive">
+                        
                             <table class="table table-striped table-hover table-bordered">
                                 <thead class="bg-info text-white">
                                     <tr>
@@ -576,20 +576,24 @@
                                         <th>Invoice ID</th>
                                         <th>Customer</th>
                                         <th>Total Amount</th>
-                                        <th>Date</th>
+                                        <th>Date & time</th>
                                         <th>Actions</th>
                                     </tr>
+                                    
                                 </thead>
+                                {% if all_invoice|length == 0 %}
+                       
+                        <div class="table-responsive">
+                             <h2>No Invoices Found</h2>
+                  {% endif %} 
                                 <tbody>
                                     
-                                  {% if all_invoice|length == 0 %}
-                                        <h2>No Invoices Found</h2>
-                                  {% endif %} 
+                                 
                                   {% for invoice in all_invoice %}
                                   <tr class="table-row-hover">
                                     <td>{{loop.index}}</td>
                                     <td>{{invoice.invoice_id}}</td>
-                                    <td>{{invoice.customer_id}}</td>
+                                    <td>{{invoice.customer.username}}</td>
                                     <td>{{invoice.total_amount}}</td>
                                     <td>{{invoice.invoice_date}}</td>
                                     <td>
