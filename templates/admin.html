@@ -581,33 +581,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Dummy Invoices -->
-                                    <tr class="table-row-hover">
-                                        <td>1</td>
-                                        <td>INV-001</td>
-                                        <td>John Doe</td>
-                                        <td>$55</td>
-                                        <td>2025-02-10</td>
-                                        <td>
-                                            <button
-                                                class="btn btn-primary btn-sm shadow-lg transform-hover">View</button>
-                                            <button
-                                                class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="table-row-hover">
-                                        <td>2</td>
-                                        <td>INV-002</td>
-                                        <td>Jane Smith</td>
-                                        <td>$75</td>
-                                        <td>2025-02-10</td>
-                                        <td>
-                                            <button
-                                                class="btn btn-primary btn-sm shadow-lg transform-hover">View</button>
-                                            <button
-                                                class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
-                                        </td>
-                                    </tr>
+                                    
+                                  {% if all_invoice|length == 0 %}
+                                        <h2>No Invoices Found</h2>
+                                  {% endif %} 
+                                  {% for invoice in all_invoice %}
+                                  <tr class="table-row-hover">
+                                    <td>{{loop.index}}</td>
+                                    <td>{{invoice.invoice_id}}</td>
+                                    <td>{{invoice.customer_id}}</td>
+                                    <td>{{invoice.total_amount}}</td>
+                                    <td>{{invoice.invoice_date}}</td>
+                                    <td>
+                                        <button
+                                            class="btn btn-primary btn-sm shadow-lg transform-hover">View</button>
+                                        <button
+                                            class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
+                                    </td>
+                                </tr>
+                                  {% endfor %}
                                 </tbody>
                             </table>
                         </div>

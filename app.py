@@ -1,5 +1,6 @@
 
 import os
+import json
 from flask import Flask,render_template,request,jsonify,url_for,redirect
 from db import *
 from db import SessionLocal, Product, Review, Customer
@@ -42,14 +43,14 @@ def homepage():
 
 
 
-
-
 @app.route('/admin_page')
 def admin():
     # Fetch all reviews
     all_reviews = session.query(Review).all()
     all_products = session.query(Product).all()
-    return render_template('admin.html', all_reviews=all_reviews,all_products = all_products)
+    all_invoice = session.query(Invoice).all()
+    all_invoice_item = session.query(InvoiceItem).all()
+    return render_template('admin.html', all_reviews=all_reviews,all_products = all_products,all_invoice = all_invoice)
 
 @app.route('/toggle_visibility/<int:review_id>', methods=['POST'])
 def toggle_visibility(review_id):
@@ -186,26 +187,65 @@ def filter():
 @app.route('/add_customer', methods=['POST'])
 def add_customer():
     session = SessionLocal()
-    customer_added = False  # Flag to indicate if a customer was added
+    customer_added = False
 
     try:
-        # Extract customer details and cart data
+        # Extract customer details
         name = request.form.get('name')
         email = request.form.get('email')
         address = request.form.get('address')
         city = request.form.get('city')
         state = request.form.get('state')
         zip_code = request.form.get('zip')
+
+        # Extract and parse cart data
+        cart_data = request.form.get('cart_product_data')
+        cart = json.loads(cart_data) if cart_data else {}
+
+        # Check if the customer exists
         customer = session.query(Customer).filter_by(email=email).first()
         if not customer:
             customer = Customer(username=name, email=email, address=address, city=city, state=state, zip=zip_code)
             session.add(customer)
             session.commit()
-            customer_added = True  # Set flag to True if customer is added
+            customer_added = True
+
+        # Calculate total amount
+        total_amount = 0
+        for product_id, quantity in cart.items():
+            product = session.query(Product).get(int(product_id))
+            if product:
+                total_amount += product.selling_price * cart[product_id]['quantity']
+
+
+        # Create invoice
+        if cart:
+            invoice = Invoice(customer_id=customer.customer_id, total_amount=total_amount)
+            session.add(invoice)
+            session.commit()
+
+            # Add invoice items
+            # Add invoice items
+            for product_id, item in cart.items():
+                product = session.query(Product).get(int(product_id))
+                if product:
+                    quantity = item['quantity']
+                    unit_price = float(item['price'])
+                    invoice_item = InvoiceItem(
+                        invoice_id=invoice.invoice_id,
+                        product_id=product.product_id,
+                        quantity=quantity,
+                        unit_price=unit_price
+                    )
+                    session.add(invoice_item)
+
+
+            session.commit()
 
     finally:
         session.close()
-    return redirect(url_for('shopnow', showModal='true', customer_added=customer_added))  # Pass the flag
+
+    return redirect(url_for('shopnow', showModal='true', customer_added=customer_added))
 
 
 

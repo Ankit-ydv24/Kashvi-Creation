@@ -348,7 +348,28 @@
             color: white;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+
+        .footer {
+            width: 100%;
+            background-color: #007A7A;
+            /* A deep aqua shade */
+            margin-top: 50px;
+            padding: 20px 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            /* Appropriate width for modern websites */
+            margin: top 10rem;
+            /* Centers the content */
+            text-align: center;
+            padding: 0 20px;
+            /* Adds some padding on smaller screens */
+            color: white;
+        }
     </style>
+
 
 </head>
 
@@ -453,7 +474,10 @@
     </div>
 
     <footer class="footer">
-        &copy; 2025 Kashvi Creation. All rights reserved.
+        <div class="footer-content">
+            &copy; 2025 Kashvi Creation. All rights reserved.
+        </div>
+            
     </footer>
 
     <!-- Cart Modal -->
@@ -505,8 +529,8 @@
                             <input type="email" class="form-control" id="validationDefault02" name="email" required>
                         </div>
                         <div class="col-md-5">
-                            <label for="validationDefault02" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="validationDefault02" name="address" required>
+                            <label for="validationDefault021" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="validationDefault021" name="address" required>
                         </div>
 
                         <div class="col-md-6">
@@ -807,6 +831,7 @@
             });
         });
     </script>
+
     <script>
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
         const appendAlert = (message, type) => {
@@ -861,6 +886,23 @@
                 myModal.show();
             }
         });
+        document.querySelector(".btn-primary[data-bs-toggle='modal']").addEventListener("click", function () {
+            let cartProductData = {};
+
+            // Gather cart items with product ID, name, price, and quantity
+            Object.keys(cart).forEach(productId => {
+                const item = cart[productId];
+                cartProductData[productId] = {
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                };
+            });
+
+            // Store as JSON string in hidden input
+            document.getElementById("cartProductData").value = JSON.stringify(cartProductData);
+        });
+
     </script>
 
 
