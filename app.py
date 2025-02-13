@@ -10,13 +10,10 @@ from db import engine
 from werkzeug.utils import secure_filename
 from sqlalchemy.exc import IntegrityError
 
-
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
-
-
 
 # Using joinedload
 from sqlalchemy.orm import joinedload
@@ -260,9 +257,9 @@ def add_customer():
 
 
 
+
 @app.route('/generate_invoice/<int:invoice_id>')
 def generate_invoice(invoice_id):
-    # Database query
     session = SessionLocal()
 
     invoice = session.query(Invoice).options(
@@ -274,51 +271,74 @@ def generate_invoice(invoice_id):
         session.close()
         return "Invoice not found"
 
-    # Prepare PDF directory
     pdf_dir = os.path.join('static', 'invoice')
     os.makedirs(pdf_dir, exist_ok=True)
 
-    # File path
     file_path = os.path.join(pdf_dir, f'invoice_{invoice_id}.pdf')
 
     try:
-        # Generate PDF
         doc = SimpleDocTemplate(file_path, pagesize=A4, title=f"Invoice {invoice_id}")
         elements = []
-
-        # Add invoice details
         styles = getSampleStyleSheet()
-        elements.append(Paragraph(f"Invoice ID: {invoice.invoice_id}", styles["Title"]))
-        elements.append(Paragraph(f"Customer: {invoice.customer.username}", styles["Normal"]))
-        elements.append(Paragraph(f"Date: {invoice.invoice_date.strftime('%Y-%m-%d')}", styles["Normal"]))
-        elements.append(Paragraph(f"Total Amount: ${invoice.total_amount}", styles["Normal"]))
+
+        # Add logo
+        logo_path = os.path.join("static", "images", "img-20250204-wa0006-224x224.jpg")
+        if os.path.exists(logo_path):
+            elements.append(Image(logo_path, width=160, height=160))
+        elements.append(Spacer(1, 10))
+
+        # Add company name and Hindi tagline
+
+       
+        elements.append(Spacer(1, 10))
+
+        # Line separator
+        elements.append(Paragraph("<hr width='100%'/>", styles["Normal"]))
+        elements.append(Spacer(1, 10))
+
+        # Customer details
+        customer_details = f"""
+        <b>Customer:</b> {invoice.customer.username}<br/>
+        <b>Email:</b> {invoice.customer.email}<br/>
+        <b>Address:</b> {invoice.customer.address}, {invoice.customer.city}, {invoice.customer.state}<br/>
+        
+        <b>Zip:</b> {invoice.customer.zip}
+        """
+        elements.append(Paragraph(customer_details, styles["Normal"]))
         elements.append(Spacer(1, 20))
 
-        # Add invoice items as table
+        # Invoice table
         data = [["Product", "Quantity", "Unit Price", "Total"]]
         for item in invoice.invoice_items:
             total = float(item.quantity) * float(item.unit_price)
-            data.append([item.product.product_name, item.quantity, f"${item.unit_price}", f"${total}"])
+            data.append([item.product.product_name, str(item.quantity), f"{item.unit_price}", f"{total}"])
 
-        table = Table(data, hAlign='LEFT')
+        table = Table(data, hAlign='LEFT', colWidths=[130, 80, 80, 80])
         table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.royalblue),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.gold),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black)
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.white)
         ]))
         elements.append(table)
         elements.append(Spacer(1, 20))
 
+        # Total Amount at Bottom Right
+        elements.append(Paragraph(f"<b>Total Amount:</b> {invoice.total_amount} Rupees", styles["Normal"]))
+        elements.append(Spacer(1, 30))
+
+        # Thank You Message at Bottom
+        elements.append(Paragraph('<font size="16">Thank you for visiting Kashvi Creation!</font>', styles["Normal"]))
+
         # Build PDF
         doc.build(elements)
-
-        # Close the session after using all the data
         session.close()
 
-        # Send file and redirect
+        # Send file as response
         response = send_file(file_path, as_attachment=True)
-        response.headers['X-Redirect'] = url_for('shopnow')  # Adjust 'dashboard' to your actual page route
+        response.headers['X-Redirect'] = url_for('shopnow')  
         return response
 
     except Exception as e:
