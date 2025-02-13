@@ -153,6 +153,20 @@ def addproduct():
     else:
         return "Error: Invalid file format or no file uploaded!"
 
+@app.route('/delete_product',methods = ["POST"])
+def delete_product():
+    product_id = request.form['id']
+    product = session.query(Product).get(product_id)
+    
+    if product:
+        session.delete(product)
+        session.commit()
+    
+    return redirect(url_for('admin'))
+    
+
+
+
 
 
 @app.route('/shopnow')
@@ -172,6 +186,7 @@ def filter():
 @app.route('/add_customer', methods=['POST'])
 def add_customer():
     session = SessionLocal()
+    customer_added = False  # Flag to indicate if a customer was added
 
     try:
         # Extract customer details and cart data
@@ -181,58 +196,17 @@ def add_customer():
         city = request.form.get('city')
         state = request.form.get('state')
         zip_code = request.form.get('zip')
-        
-        cart_data = request.form.get('cart_product_data')
-        cart_data = {} if not cart_data else eval(cart_data)  # Convert string to dictionary
-
-        if not cart_data:
-            return jsonify({"error": "Cart is empty"}), 400
-
-        # Process customer and order (same logic as before)
         customer = session.query(Customer).filter_by(email=email).first()
         if not customer:
             customer = Customer(username=name, email=email, address=address, city=city, state=state, zip=zip_code)
             session.add(customer)
             session.commit()
-
-        total_amount = 0
-        invoice_items = []
-        for product_id, quantity in cart_data.items():
-            product = session.query(Product).filter_by(product_id=int(product_id)).first()
-            if not product:
-                return jsonify({"error": f"Product with ID {product_id} not found"}), 400
-
-            unit_price = float(product.selling_price)
-            total_amount += unit_price * quantity
-            invoice_items.append(InvoiceItem(
-                product_id=int(product_id),
-                quantity=quantity,
-                unit_price=unit_price
-            ))
-
-        invoice = Invoice(customer_id=customer.customer_id, total_amount=total_amount)
-        session.add(invoice)
-        session.commit()
-
-        for item in invoice_items:
-            item.invoice_id = invoice.invoice_id
-            session.add(item)
-
-        session.commit()
-
-        # Return a response back to the frontend without redirecting
-        return jsonify({
-            "message": "Order placed successfully",
-            "invoice_id": invoice.invoice_id,
-            "total_amount": total_amount
-        })
-
-    except IntegrityError:
-        session.rollback()
-        return jsonify({"error": "Database error"}), 500
+            customer_added = True  # Set flag to True if customer is added
 
     finally:
         session.close()
+    return redirect(url_for('shopnow', showModal='true', customer_added=customer_added))  # Pass the flag
+
 
 
 

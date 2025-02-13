@@ -105,11 +105,18 @@
 
         .product-image img {
             width: 100%;
+            max-width: 150px;
+            /* Ensures images don’t stretch too much */
             height: 200px;
-            /* Uniform Image Height */
+            /* Fixed height */
             object-fit: cover;
+            /* Ensures the image fills the area */
+            object-position: top;
+            /* Focuses on the upper part of the image */
             border-radius: 8px;
+            /* Keeps rounded corners */
         }
+
 
         .product-description {
             font-size: 14px;
@@ -412,17 +419,18 @@
 
 
 
-
+    <!-- product display -->
     <div class="container">
         <div class="row" id="product-list">
             {% if all_product|length == 0 %}
-                <h1>No Product Available Yet</h1>
+            <h1>No Product Available Yet</h1>
             {% endif %}
             {% for product in all_product %}
             <div class="col-md-3" style="margin-top: 2rem;">
                 <div class="product-card">
                     <div class="product-image">
                         <img src="{{ product.product_image }}" alt="{{ product.product_name }}">
+
                     </div>
                     <div class="product-details">
                         <h3 class="product-name">{{ product.product_name }}</h3>
@@ -481,11 +489,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Customer Info</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        onclick="history.go(0);"></button>
+
+                    <button type="button" class="btn-close" onclick="closeAndResetModals()" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="row g-3" method="POST" action="/add_customer">
+
                         <div class="col-md-4">
                             <label for="validationDefault01" class="form-label">Name</label>
                             <input type="text" class="form-control" id="validationDefault01" name="name" required>
@@ -571,8 +581,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        onclick="history.go(0);">Close</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAndResetModals()"
+                        data-bs-dismiss="modal">Close</button>
 
                 </div>
             </div>
@@ -586,8 +596,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        onclick="history.go(0);"></button>
+                    <button type="button" class="btn-close" onclick="closeAndResetModals()" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="amount-display mb-4">
@@ -698,8 +708,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        onclick="history.go(0);">Cancel</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAndResetModals()"
+                        data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary">Proceed to Pay</button>
                 </div>
             </div>
@@ -821,11 +831,38 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function reloadPage() {
-            location.reload();
+        function closeAndResetModals() {
+            // Close all modals
+            const modals = ['cartModal', 'exampleModal', 'paymentModal'];
+            modals.forEach(modalId => {
+                const modalElement = document.getElementById(modalId);
+                if (modalElement) {
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                }
+            });
+
+            // Remove any backdrop
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+
+            // Reset the cart
+
         }
     </script>
-    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('showModal') === 'true') {
+                // Open the modal
+                var myModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+                myModal.show();
+            }
+        });
+    </script>
+
 
 </body>
 

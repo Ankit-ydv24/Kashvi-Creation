@@ -71,7 +71,7 @@ class InvoiceItem(Base):
     
     invoice_item_id = Column(Integer, primary_key=True)
     invoice_id = Column(Integer, ForeignKey('invoices.invoice_id'), nullable=False)
-    product_id = Column(Integer, ForeignKey('products.product_id'), nullable=False)
+    product_id = Column(Integer, ForeignKey('products.product_id'))
     quantity = Column(Integer, nullable=False)
     unit_price = Column(DECIMAL(10, 2), nullable=False)
     
