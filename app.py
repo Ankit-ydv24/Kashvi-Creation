@@ -1,7 +1,7 @@
 
 import os
 import json
-from flask import Flask,render_template,request,jsonify,url_for,redirect,send_file
+from flask import Flask,render_template,request,jsonify,url_for,redirect,send_file,flash
 from db import *
 from db import SessionLocal, Product, Review, Customer
 from sqlalchemy.orm import sessionmaker
@@ -23,6 +23,7 @@ from sqlalchemy.orm import joinedload
 
 
 app = Flask(__name__)
+app.secret_key = '3248490231759590jfoj238sdj'
 
 
 
@@ -344,6 +345,27 @@ def generate_invoice(invoice_id):
     except Exception as e:
         session.close()
         raise e
+
+
+
+@app.route('/download_invoice', methods=["POST"])
+def download_invoice():
+    invoice = request.form.get('id')
+    if not invoice or not invoice.isdigit():
+        flash("Invalid invoice ID", "error")
+        return redirect(url_for('admin'))
+
+    pdf_dir = os.path.join('static', 'invoice')
+    file_path = os.path.join(pdf_dir, f'invoice_{invoice}.pdf')
+
+    if not os.path.exists(file_path):
+        flash("Invoice not found", "error")
+        return redirect(url_for('admin'))
+
+    response = send_file(file_path, as_attachment=True, mimetype='application/pdf')
+    response.headers['X-Redirect'] = url_for('admin')  
+    return response
+
 
 if __name__ == '__main__':
     app.run(debug=True)

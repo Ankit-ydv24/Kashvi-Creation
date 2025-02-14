@@ -136,6 +136,8 @@
         .table td {
             padding: 1rem;
             vertical-align: middle;
+            background-color: #b7f1f1;
+            font-size: medium;
         }
 
         .table-row-hover:hover {
@@ -355,9 +357,8 @@
                     <h2 class="text-center text-muted mb-4">Manage Products</h2>
 
                     <!-- Product Form -->
-                    <form id="productForm" class="mb-4 p-4 border rounded shadow-lg "
-                        style="background-color:#6DD6DA;" method="post" action="/addproduct"
-                        enctype="multipart/form-data">
+                    <form id="productForm" class="mb-4 p-4 border rounded shadow-lg " style="background-color:#6DD6DA;"
+                        method="post" action="/addproduct" enctype="multipart/form-data">
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <label for="productName" class="form-label">Product Name</label>
@@ -421,8 +422,8 @@
 
 
                     <!-- Product List -->
-                    <section id="product-list" class="section-container product-list-container">
-                        <h4 class="text-center text-muted">Product List</h4>
+                    <section id="product-list" class="section-container product-list-container" style="background-color: #9fecec;">
+                        <h4 class="text-center text-muted" style="color: black;">Product List</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover table-bordered">
                                 <table class="table table-striped table-hover table-bordered"
@@ -537,7 +538,7 @@
                         <table class="table table-striped table-hover table-bordered">
                             <thead class="bg-info text-white">
                                 <tr>
-                                    <th>#</th>
+
                                     <th>Invoice ID</th>
                                     <th>Customer</th>
                                     <th>Total Amount</th>
@@ -556,16 +557,25 @@
 
                                     {% for invoice in all_invoice %}
                                     <tr class="table-row-hover">
-                                        <td>{{loop.index}}</td>
-                                        <td>{{invoice.invoice_id}}</td>
-                                        <td>{{invoice.customer.username}}</td>
-                                        <td>{{invoice.total_amount}}</td>
-                                        <td>{{invoice.invoice_date}}</td>
-                                        <td>
-                                            <button
-                                                class="btn btn-primary btn-sm shadow-lg transform-hover">View</button>
-                                            <button
-                                                class="btn btn-success btn-sm shadow-lg transform-hover">Download</button>
+
+                                        <td style="background-color:#6fe0ea85 ;">{{invoice.invoice_id}}</td>
+                                        <td style="background-color:#6fe0ea85 ;">{{invoice.customer.username}}</td>
+                                        <td style="background-color:#6fe0ea85 ;">{{invoice.total_amount}}</td>
+                                        <td style="background-color:#6fe0ea85 ;">{{invoice.invoice_date}}</td>
+                                        <td style="background-color:#6fe0ea85 ;">
+                                            <div style="display: flex; flex-direction: row;">
+                                                <form action="/download_invoice" method="POST" class="d-inline">
+                                                    <input type="hidden" name="id" value="123">
+                                                    <button type="submit" class="btn btn-info text-white me-3" style="background-color: #00d4d4;">
+                                                        Download
+                                                    </button>
+                                                </form>
+                                    
+                                                <!-- View Button -->
+                                                <button class="btn btn-primary" style="background-color: #008b8b;" onclick="openPDFModal('static/invoice/invoice_{{invoice.invoice_id}}.pdf')">
+                                                    View
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -576,6 +586,36 @@
         </main>
     </div>
     </div>
+
+
+    
+
+    <!-- Modal for Viewing PDF -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #00d4d4; color: white;">
+                    <h5 class="modal-title" id="pdfModalLabel">Invoice Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- PDF Viewer -->
+                    <iframe id="pdfViewer" src="" width="100%" height="600px" style="border: none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to open modal with PDF -->
+    <script>
+        function openPDFModal(pdfUrl) {
+            document.getElementById('pdfViewer').src = pdfUrl;
+            var pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
+            pdfModal.show();
+        }
+    </script>
+
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
