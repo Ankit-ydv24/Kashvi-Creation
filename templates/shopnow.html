@@ -554,43 +554,40 @@
 
 
 
-
-
-
-
-
-
-
     <!-- Add this after your nav element and before the saree grid -->
 
-    <div class="container mt-4 p-3 shadow-sm rounded bg-white">
-        <div class="d-flex flex-wrap align-items-center justify-content-between">
-            <button id="filterButton" class="btn btn-pink d-flex align-items-center px-4 py-2 rounded-pill shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
-                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                </svg>
-                <span>Filter</span>
-            </button>
-            <form id="filterForm" action="/filter" method="POST">
-                <input type="hidden" id="filterInput" name="filter" value="">
-            </form>
+    <!-- filter button actions -->
+<!-- Filter button section - needs modification for client-side filtering -->
+<div class="container mt-4 p-3 shadow-sm rounded bg-white">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+        <button id="filterButton" class="btn btn-pink d-flex align-items-center px-4 py-2 rounded-pill shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            <span>Filter</span>
+        </button>
+        <!-- Removed the commented out form as it's not needed for client-side filtering -->
 
-            <div id="filterOptions" class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
-                <button class="btn filter-btn" data-filter="All">All</button>
-                <button class="btn filter-btn" data-filter="Banarasi">Banarasi</button>
-                <button class="btn filter-btn" data-filter="Kanjivaram">Kanjivaram</button>
-                <button class="btn filter-btn" data-filter="Patola">Patola</button>
-                <button class="btn filter-btn" data-filter="Chanderi">Chanderi</button>
-                <button class="btn filter-btn" data-filter="Surti">Surti</button>
-                <button class="btn filter-btn" data-filter="Sambalpuri">Sambalpuri</button>
-                <button class="btn filter-btn" data-filter="Tant">Tant</button>
-                <button class="btn filter-btn" data-filter="Kasavu">Kasavu</button>
-                <button class="btn filter-btn" data-filter="Bandhani">Bandhani</button>
-                <button class="btn filter-btn" data-filter="Leheriya">Leheriya</button>
-            </div>
+        <div id="filterOptions" class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
+            <button class="btn filter-btn active" data-filter="All">All</button>
+            <button class="btn filter-btn" data-filter="Banarasi">Banarasi</button>
+            <button class="btn filter-btn" data-filter="Kanjivaram">Kanjivaram</button>
+            <button class="btn filter-btn" data-filter="Patola">Patola</button>
+            <button class="btn filter-btn" data-filter="Chanderi">Chanderi</button>
+            <button class="btn filter-btn" data-filter="Surti">Surti</button>
+            <button class="btn filter-btn" data-filter="Sambalpuri">Sambalpuri</button>
+            <button class="btn filter-btn" data-filter="Tant">Tant</button>
+            <button class="btn filter-btn" data-filter="Kasavu">Kasavu</button>
+            <button class="btn filter-btn" data-filter="Bandhani">Bandhani</button>
+            <button class="btn filter-btn" data-filter="Leheriya">Leheriya</button>
         </div>
     </div>
+</div>
+
+
+
+<!-- ---cart container -->
 
     <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
         <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
@@ -601,21 +598,20 @@
 
 
     <!-- product display -->
+    <!-- Product display section - remains mostly unchanged, just need to add data-variety attribute -->
     <div class="container">
         <div class="row" id="product-list">
             {% if all_product|length == 0 %}
             <h1>No Product Available Yet</h1>
             {% endif %}
             {% for product in all_product %}
-            <div class="col-md-3" style="margin-top: 2rem;">
+            <div class="col-md-3 product-item" style="margin-top: 2rem;" data-variety="{{ product.variety }}">
                 <div class="product-card" >
                     <div class="product-image">
                         <img src="{{ product.product_image }}" alt="{{ product.product_name }}">
-
                     </div>
                     <div class="product-details">
                         <h3 class="product-name">{{ product.product_name }}</h3>
-
                         <p class="product-description">
                             {{ product.description[:40] }}{% if product.description|length > 40 %}...{% endif %}
                         </p>
@@ -637,12 +633,9 @@
                             onclick="addToCart('{{ product.product_id }}', '{{ product.product_name }}', '{{ product.selling_price }}')">
                             🛒 Add to Cart
                         </button>
-
-
                     </div>
                 </div>
             </div>
-
             {% endfor %}
         </div>
     </div>
@@ -816,7 +809,7 @@
     </div>
 
 
-
+     <!-- Payment modal -->
     <div class="modal fade" id="paymentModal" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -1012,6 +1005,7 @@
 
 
     <!-- ✅ JavaScript Fixes -->
+     <!-- Existing cart scripts remain unchanged -->
     <script>
         let cart = {};
 
@@ -1085,21 +1079,62 @@
         });
 
     </script>
-    <script>
-        document.querySelectorAll(".filter-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                let selectedFilter = this.getAttribute("data-filter");
 
-                // Set the hidden input value
-                document.getElementById("filterInput").value = selectedFilter;
-
-                // Submit the form
-                document.getElementById("filterForm").submit();
+     <!-- Replace the filter script with the new client-side filtering implementation -->
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const productItems = document.querySelectorAll('.product-item');
+            
+            // Initialize with 'All' selected
+            let currentFilter = 'All';
+            
+            // Add click event listeners to filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get the filter value
+                    currentFilter = this.getAttribute('data-filter');
+                    
+                    // Filter the products
+                    filterProducts(currentFilter);
+                });
             });
+            
+            // Filter function
+            function filterProducts(filter) {
+                productItems.forEach(item => {
+                    const variety = item.getAttribute('data-variety');
+                    
+                    if (filter === 'All' || filter === variety) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Add CSS for active button
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .filter-btn.active {
+                    background: aqua;
+                    color: black;
+                    border-color: aqua;
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 
+    
 
+<!--     -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function closeAndResetModals() {
