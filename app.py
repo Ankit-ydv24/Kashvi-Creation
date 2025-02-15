@@ -111,8 +111,8 @@ def review():
         # Save to database
         session.add(new_review)
         session.commit()
-
-        return render_template('index.html')
+        all_reviews = session.query(Review).filter_by(visibility_on_homepage = True).all()
+        return render_template('index.html',all_reviews = all_reviews)
 
     except Exception as e:
         session.rollback()
@@ -285,7 +285,7 @@ def generate_invoice(invoice_id):
         # Add logo
         logo_path = os.path.join("static", "images", "img-20250204-wa0006-224x224.jpg")
         if os.path.exists(logo_path):
-            elements.append(Image(logo_path, width=160, height=160))
+            elements.append(Image(logo_path, width=170, height=170))
         elements.append(Spacer(1, 10))
 
         # Add company name and Hindi tagline
@@ -327,7 +327,7 @@ def generate_invoice(invoice_id):
         elements.append(Spacer(1, 20))
 
         # Total Amount at Bottom Right
-        elements.append(Paragraph(f"<b>Total Amount:</b> {invoice.total_amount} Rupees", styles["Normal"]))
+        elements.append(Paragraph(f"<b>Total Amount:</b> Rs {invoice.total_amount} ", styles["Normal"]))
         elements.append(Spacer(1, 30))
 
         # Thank You Message at Bottom

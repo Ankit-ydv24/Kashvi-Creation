@@ -1,0 +1,318 @@
+
+:root {
+    --primary-aqua: #00838f;
+    --secondary-aqua: #006064;
+    --light-aqua: #84ffff;
+    --dark-aqua: #006064;
+    --background: #e0f7fa;
+    --text-primary: #263238;
+    --text-secondary: #546e7a;
+    --success: #2e7d32;
+    --warning: #f57f17;
+    --danger: #c62828;
+    --white: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Base Styles */
+body {
+    background-color: var(--background);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    background: linear-gradient(180deg, var(--primary-aqua) 0%, var(--secondary-aqua) 100%);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 4px 0 10px var(--shadow);
+}
+
+.sidebar a {
+    color: var(--white);
+    text-decoration: none;
+    padding: 1rem;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.sidebar a.active {
+    background: var(--light-aqua);
+    color: var(--dark-aqua);
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--light-aqua);
+    box-shadow: 0 4px 15px var(--shadow);
+    display: block;
+    /* Ensures proper centering */
+    margin: 0 auto 2rem;
+    /* Centers horizontally and adds bottom margin */
+    position: relative;
+    /* For potential absolute positioning of decorative elements */
+}
+
+/* Logo Container */
+.logo-container {
+    text-align: center;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+
+/* Content Area */
+.content {
+    padding: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Form Styling */
+.form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-aqua);
+    box-shadow: 0 0 0 3px rgba(0, 131, 143, 0.2);
+    outline: none;
+}
+
+/* Product Form */
+#productForm {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px var(--shadow);
+    margin-bottom: 2rem;
+}
+
+/* Table Styling */
+.table {
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow);
+}
+
+.table th {
+    background-color: var(--primary-aqua);
+    color: var(--white);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+    background-color: #b7f1f1;
+    font-size: medium;
+}
+
+.table-row-hover:hover {
+    background-color: rgba(0, 131, 143, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+/* Button Styling */
+.btn {
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--primary-aqua);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--secondary-aqua);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 131, 143, 0.3);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: var(--white);
+}
+
+.btn-danger:hover {
+    background: #b71c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+}
+
+.btn-warning {
+    background: var(--warning);
+    color: var(--white);
+}
+
+.btn-warning:hover {
+    background: #f57f17;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(245, 127, 23, 0.3);
+}
+
+/* Badge Styling */
+.badge {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.bg-success {
+    background: var(--success) !important;
+}
+
+.bg-secondary {
+    background: var(--text-secondary) !important;
+}
+
+/* Image Styling */
+.product-image {
+    max-width: 100px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+    transform: scale(1.1);
+}
+
+/* Section Container */
+.section-container {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px var(--shadow);
+}
+
+/* Select Styling */
+select {
+    appearance: none;
+    background: var(--white);
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M8 11l4-4H4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem !important;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Back Button */
+.back-btn {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    background: #005f66;
+    /* Darker shade of aqua */
+    color: var(--white);
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:hover {
+    background: #004d52;
+    /* Even darker shade for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensuring text remains centered under logo */
+.sidebar h5 {
+    text-align: center;
+    color: var(--white);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        z-index: 1000;
+        width: 250px;
+        left: -250px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .product-image {
+        max-width: 60px;
+    }
+}
+
+/* Card Hover Effects */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow);
+}
+
+/* Transform Hover Effect */
+.transform-hover {
+    transition: all 0.3s ease;
+}
+
+.transform-hover:hover {
+    transform: scale(1.02);
+}
