@@ -529,18 +529,82 @@
             }
         }
     </style>
-  
 
+
+    <!-- ADD THIS TO THE EXISTING STYLE SECTION -->
+    <style>
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: 15px;
+            font-size: small;
+        }
+
+        .search-icon {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            padding: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input {
+            position: absolute;
+            padding: 0.3rem;
+            font-size: small;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            padding: 3px 4px;
+            border-radius: 0.6rem;
+            border: none;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .search-input.active {
+            width: 12rem;
+            opacity: 1;
+            font-size: small;
+            visibility: visible;
+            margin-right: 10px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Adjust cart container for new layout */
+        .cart-container {
+            position: relative;
+            top: unset;
+            right: unset;
+            /* Keep other properties */
+        }
+
+        /* Media query for mobile responsiveness */
+        @media (max-width: 768px) {
+            .search-input.active {
+                width: 150px;
+            }
+        }
+    </style>
 
 </head>
 
 <body>
-    <header style="position: relative; height: 100px;">
+    <!-- REPLACE THE ENTIRE HEADER SECTION WITH THIS CODE -->
+    <header
+        style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 100px; background: linear-gradient(135deg, aqua, rgb(8, 132, 132));">
         <!-- Home Button -->
         <a href="{{ url_for('homepage') }}" class="back-btn">
             &larr; Home
         </a>
-
 
         <!-- Content Centered in Header -->
         <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
@@ -551,7 +615,26 @@
                 <p style="font-style: italic;">"प्रेम और विश्वास का अनोखा संगम"</p>
             </div>
         </div>
+
+        <!-- Search and Cart Container -->
+        <!-- Inside the header's right container -->
+        <div
+            style="position: absolute; top: 50%; transform: translateY(-50%); right: 20px; display: flex; align-items: center;">
+            <!-- Search Icon and Input -->
+            <div class="search-container">
+                <i class="fa fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search sarees..."
+                    style="font-size: 16px; border-color: #00acc1; border-width: 2px; padding: 8px 15px;">
+            </div>
+            <!-- Cart Button -->
+            <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
+            </div>
+        </div>
     </header>
+
+    <!-- Add this to compensate for the fixed header -->
+    <div style="height: 100px; margin-bottom: 2rem;"></div>
 
 
 
@@ -588,19 +671,11 @@
 
 
 
-    <!-- ---cart container -->
-
-    <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
-        <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
-
-    </div>
-
-
 
 
     <!-- product display -->
     <!-- Product display section - remains mostly unchanged, just need to add data-variety attribute -->
-    <!-- function showSareeDetail(productId, name, description, variety, image1,image2,image3)  -->
+    <!-- function showSareeDetail( name, description, variety, image1, image2, image3) -->
     <div class="container">
         <div class="row" id="product-list">
             {% if all_product|length == 0 %}
@@ -608,18 +683,12 @@
             {% endif %}
             {% for product in all_product %}
             <div class="col-md-3 product-item" style="margin-top: 2rem;" data-variety="{{ product.variety }}">
-                <div class="product-card"
-                    onclick='showSareeDetail("{{ product.productid }}","{{product.product_name}}","{{product.description}}","{{product.variety}}","{{product.product_image1}}","{{product.product_image2}}","{{product.product_image3}}")'>
-                    <!-- Image Carousel -->
+                <div class="product-card">
                     <div class="product-image">
-                        <img src="{{ product.product_image2 }}" alt="{{ product.product_name }}">
-                        <p>{{product.product_image2}}</p>
+                        <img src="{{ product.product_image1 }}" alt="{{ product.product_name }}"
+                            onclick='showSareeDetail("{{ product.product_id }}", "{{ product.product_name }}", "{{ product.description }}", "{{ product.variety }}", "{{ product.product_image1}}", "{{ product.product_image2}}", "{{ product.product_image3 }}")'>
+
                     </div>
-
-                    <!-- Lightbox (for Enlarged Image) -->
-
-
-                    <!-- Product Details -->
                     <div class="product-details">
                         <h3 class="product-name">{{ product.product_name }}</h3>
                         <p class="product-description">
@@ -630,19 +699,17 @@
                         </p>
                         <p class="product-price">{{ product.variety }}</p>
                         <p class="product-prices" style="display: none;">{{ product.selling_price }}</p>
-
-                        <!-- Add to Cart Button -->
                         <button class="cart-btn" id="liveAlertBtn" style="
-                            background: linear-gradient(135deg, #00b894, #008080);
-                            color: #fff;
-                            padding: 0.75rem 1.5rem;
-                            border: none;
-                            border-radius: 10px;
-                            font-size: 1.1rem;
-                            transition: transform 0.2s, box-shadow 0.3s;"
-                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 5px 15px rgba(0, 184, 148, 0.5)';"
+                        background: linear-gradient(135deg, #00b894, #008080);
+                        color: #fff;
+                        padding: 0.75rem 1.5rem;
+                        border: none;
+                        border-radius: 10px;
+                        font-size: 1.1rem;
+                        transition: transform 0.2s, box-shadow 0.3s;
+                    " onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 5px 15px rgba(0, 184, 148, 0.5)';"
                             onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
-                            onclick="addToCart('{{ product.product_id }}', '{{ product.product_name }}', '{{ product.selling_price }}')">
+                            onclick="addToCart('{{ product.product_id }}', '{{ product.product_name }}')">
                             🛒 Add to Cart
                         </button>
                     </div>
@@ -690,8 +757,7 @@
                     <!-- Total and Checkout -->
                     <div class="mt-4 d-flex justify-content-between align-items-center"
                         style="border-top: 2px solid #ddd; padding-top: 1.5rem;">
-                        <h5 style="font-weight: 700; color: #333;">Total: ₹<span id="cart-total"
-                                style="color: #008080;">0</span></h5>
+                       
                         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="
                         background: linear-gradient(135deg, #00b894, #008080);
                         color: #fff;
@@ -795,14 +861,7 @@
                         </div>
                         <input type="hidden" id="cartProductData" name="cart_product_data">
 
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                                <label class="form-check-label" for="invalidCheck2">
-                                    Agree to terms and conditions
-                                </label>
-                            </div>
-                        </div>
+                       
                         <div class="col-12">
                             <div class="container py-5">
                                 <button class="btn btn-primary" data-bs-toggle="modal"
@@ -961,8 +1020,8 @@
                     style="background: linear-gradient(135deg, #008080, #005959); color: white; padding: 1.5rem;">
                     <h5 class="modal-title" id="sareeDetailModalLabel" style="font-weight: 600; letter-spacing: 1px;">
                         🛍️ Saree Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
-                        onclick="closeAndResetModals()"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
 
                 <!-- Body -->
@@ -1055,20 +1114,21 @@
     </div>
 
     <!-- Full Screen Image Modal -->
-    <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true" style="height: 100vh;">
+    <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content bg-black">
                 <div class="modal-header border-0">
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body d-flex align-items-center justify-content-center" style="height: 90vh;">
+                <div class="modal-body d-flex align-items-center justify-content-center">
                     <img id="zoomedImage" src="" alt="Zoomed Saree"
-                        style="height: 100vh; max-width: 90vw; object-fit:cover;position: relative; top: 2rem;">
+                        style="max-height: 90vh; max-width: 90vw; object-fit: contain; position: relative; top: 3rem;">
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <!-- ✅ JavaScript Fixes -->
@@ -1077,12 +1137,12 @@
         let cart = {};
 
 
-        function addToCart(productId, productName, price) {
+        function addToCart(productId, productName) {
             productId = String(productId);  // Ensure productId is a string
             if (cart[productId]) {
                 cart[productId].quantity++;
             } else {
-                cart[productId] = { name: productName, price: price, quantity: 1 };
+                cart[productId] = { name: productName, quantity: 1 };
             }
             document.getElementById("cart-count").innerText = Object.keys(cart).length;
             updateCartModal();
@@ -1097,14 +1157,14 @@
 
             Object.keys(cart).forEach(productId => {
                 let item = cart[productId];
-                totalAmount += item.price * item.quantity;
+              
 
                 let div = document.createElement("div");
                 div.className = "list-group-item d-flex justify-content-between align-items-center";
                 div.innerHTML = `
             <div>
                 <strong>${item.name}</strong>
-                <p class="text-muted">${item.variety}</p>
+                <p class="text-muted">Quantity = ${item.quantity}</p>
             </div>
             <div>
                 <button class="btn btn-outline-secondary btn-sm" onclick="changeQuantity('${productId}', 1)">+</button>
@@ -1143,6 +1203,16 @@
 
             // Store as JSON string in hidden input
             document.getElementById("cartProductData").value = JSON.stringify(cartProductData);
+        });
+        // Attach click event to the Add to Cart button
+        document.getElementById("modalAddToCartBtn").addEventListener("click", function () {
+            // Get product details from modal
+            let productId = document.getElementById("modalSareeName").getAttribute("data-id");
+            let productName = document.getElementById("modalSareeName").innerText;
+            let productPrice = parseFloat(document.getElementById("modalSareePrice").innerText.replace(/[^\d.]/g, ''));
+
+            // Add to cart using existing function
+            addToCart(productId, productName);
         });
 
     </script>
@@ -1266,25 +1336,7 @@
         let currentProduct = null;
 
         // Modify the existing product cards to add click handlers
-        document.addEventListener('DOMContentLoaded', function () {
-            const productCards = document.querySelectorAll('.product-card');
-            productCards.forEach(card => {
-                const imageContainer = card.querySelector('.product-image');
-                imageContainer.addEventListener('click', function () {
-                    const productId = card.querySelector('.cart-btn').getAttribute('onclick')
-                        .match(/'([^']+)'/)[1];
-                    const productName = card.querySelector('.product-name').textContent;
-                    const productDescription = card.querySelector('.product-descriptionh').textContent;
-                    const productPrices = card.querySelector('.product-prices').textContent;
-                    const productPrice = card.querySelector('.product-price').textContent;
-                    const productImage = card.querySelector('img').src;
 
-                    showSareeDetail(productId, productName, productDescription, productPrice, productImage);
-                });
-            });
-        });
-
-        // Add this to your existing JavaScript
         document.addEventListener('DOMContentLoaded', function () {
             // Get all zoomable images
             const zoomableImages = document.querySelectorAll('.zoomable-image');
@@ -1300,7 +1352,6 @@
             });
         });
 
-        // Update the showSareeDetail function to handle image loading
         function showSareeDetail(productId, name, description, variety, image1, image2, image3) {
             try {
                 // Store current product data
@@ -1330,18 +1381,18 @@
 
                     // Insert a backslash at the 14th index
                     return path.slice(0, 14) + '\\' + path.slice(14);
-                };
-
+                }
 
                 // Update carousel images with properly formatted paths
                 const img1 = document.getElementById('modalSareeImage1');
                 const img2 = document.getElementById('modalSareeImage2');
                 const img3 = document.getElementById('modalSareeImage3');
 
+
                 if (img1) img1.src = formatPath(image1);
                 if (img2) img2.src = formatPath(image2);
                 if (img3) img3.src = formatPath(image3);
-               
+
                 // Show the modal
                 const modalElement = document.getElementById('sareeDetailModal');
                 if (!modalElement) {
@@ -1356,10 +1407,68 @@
                 console.error('Error showing modal:', error);
             }
         }
-
     </script>
 
+    <!-- ADD THIS BEFORE THE CLOSING BODY TAG -->
+    <script>
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchIcon = document.querySelector('.search-icon');
+            const searchInput = document.querySelector('.search-input');
+            const productItems = document.querySelectorAll('.product-item');
 
+            // Toggle search input visibility
+            searchIcon.addEventListener('click', function (e) {
+                e.stopPropagation();
+                searchInput.classList.toggle('active');
+                if (searchInput.classList.contains('active')) {
+                    searchInput.focus();
+                } else {
+                    searchInput.value = '';
+                    filterProductsBySearch('');
+                }
+            });
+
+            // Filter products based on search input
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.trim().toLowerCase();
+                filterProductsBySearch(searchTerm);
+            });
+
+            // Prevent search input from closing when clicking inside it
+            searchInput.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+
+            // Search filter function
+            function filterProductsBySearch(searchTerm) {
+                productItems.forEach(item => {
+                    const productName = item.querySelector('.product-name').textContent.toLowerCase();
+                    const productVariety = item.getAttribute('data-variety').toLowerCase();
+                    const productDescription = item.querySelector('.product-description').textContent.toLowerCase();
+
+                    if (searchTerm === '' ||
+                        productName.includes(searchTerm) ||
+                        productVariety.includes(searchTerm) ||
+                        productDescription.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+
+            // Close search when clicking outside
+            document.addEventListener('click', function () {
+                if (searchInput.classList.contains('active')) {
+                    searchInput.classList.remove('active');
+                    searchInput.value = '';
+                    filterProductsBySearch('');
+                }
+            });
+        });
+
+    </script>
 
 
 

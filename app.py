@@ -14,6 +14,9 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.graphics.shapes import Drawing, Line
+
+# Add a solid black line
 
 # Using joinedload
 from sqlalchemy.orm import joinedload
@@ -290,38 +293,35 @@ def generate_invoice(invoice_id):
 
         # Add logo
         logo_path = os.path.join("static", "images", "img-20250204-wa0006-224x224.jpg")
-        # if os.path.exists(logo_path):
-        #     elements.append(Image(logo_path, width=170, height=170))
-        # elements.append(Spacer(1, 10))
         logo = Image(logo_path, width=170, height=170)
-        # Add company name and Hindi tagline
+        elements.append(logo)
+        # Company address
         address = """
+
+    
+
+
+
         <b>Kashvi Creation</b><br/>
         Shop No. 113, Millennium Textile Market - 2,<br/>
         Ring Road, Surat - 395002.<br/>
         <b>Email:</b> kashvicreation10@gmail.com<br/>
         """
-
-        header_table = Table([
-            [logo, Paragraph(address, styles["Normal"])]
-        ], colWidths=[180, 300])
-
-        header_table.setStyle(TableStyle([
-            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-            ('LEFTPADDING', (1, 0), (1, 0), 10),
-        ]))
-
-        elements.append(header_table)
+        
+        elements.append(Paragraph(address))
         elements.append(Spacer(1, 10))
-
-        # Solid Line
-        elements.append(Paragraph("<hr width='100%' color='black'/>", styles["Normal"]))
+        line = Drawing(500, 1)
+        line.add(Line(0, 0, 500, 0, strokeColor=colors.black, strokeWidth=1))
+        elements.append(line)
         elements.append(Spacer(1, 10))
-            
+        
+        
+        elements.append(Paragraph('<font size="13">Customer Information</font>', styles["Normal"]))
+        # elements.append(header_table)
+
+
+        # Separator Line
      
-
-        # Line separator
-        elements.append(Paragraph("<hr width='100%'/>", styles["Normal"]))
         elements.append(Spacer(1, 10))
 
         # Customer details
@@ -329,35 +329,33 @@ def generate_invoice(invoice_id):
         <b>Customer:</b> {invoice.customer.username}<br/>
         <b>Email:</b> {invoice.customer.phone}<br/>
         <b>Address:</b> {invoice.customer.address}, {invoice.customer.city}, {invoice.customer.state}<br/>
-        
         <b>Zip:</b> {invoice.customer.zip}
         """
         elements.append(Paragraph(customer_details, styles["Normal"]))
         elements.append(Spacer(1, 20))
 
-        # Invoice table
+        # Invoice table with proper borders
         data = [["Product", "Quantity", "Variety"]]
         for item in invoice.invoice_items:
-            
-            data.append([item.product.product_name, str(item.quantity),item.product.variety])
+            data.append([item.product.product_name, str(item.quantity), item.product.variety])
 
-        table = Table(data, hAlign='LEFT', colWidths=[130, 80, 80])
+        table = Table(data, hAlign='LEFT', colWidths=[200, 80, 80])
         table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.royalblue),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.gold),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('BACKGROUND', (0, 1), (-1, -1), colors.white)
+            ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+            ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+            ('SIZE', (0, 0), (-1, -1), 12),
         ]))
         elements.append(table)
         elements.append(Spacer(1, 20))
 
-        # Total Amount at Bottom Right
-       
-
+ 
         # Thank You Message at Bottom
-        elements.append(Paragraph('<font size="16">Thank you for visiting Kashvi Creation!</font>', styles["Normal"]))
+        elements.append(Paragraph('<font size="13">Thank you for visiting Kashvi Creation!</font>', styles["Normal"]))
 
         # Build PDF
         doc.build(elements)
@@ -371,7 +369,6 @@ def generate_invoice(invoice_id):
     except Exception as e:
         session.close()
         raise e
-
 
 
 @app.route('/download_invoice', methods=["POST"])
