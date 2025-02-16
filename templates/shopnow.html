@@ -531,15 +531,76 @@
     </style>
 
 
+    <!-- ADD THIS TO THE EXISTING STYLE SECTION -->
+    <style>
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: 15px;
+        }
+
+        .search-icon {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            padding: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            padding: 3px 4px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .search-input.active {
+            width: 200px;
+            opacity: 1;
+            visibility: visible;
+            margin-right: 10px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Adjust cart container for new layout */
+        .cart-container {
+            position: relative;
+            top: unset;
+            right: unset;
+            /* Keep other properties */
+        }
+
+        /* Media query for mobile responsiveness */
+        @media (max-width: 768px) {
+            .search-input.active {
+                width: 150px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
-    <header style="position: relative; height: 100px;">
+    <!-- REPLACE THE ENTIRE HEADER SECTION WITH THIS CODE -->
+    <header
+        style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 100px; background: linear-gradient(135deg, aqua, rgb(8, 132, 132));">
         <!-- Home Button -->
         <a href="{{ url_for('homepage') }}" class="back-btn">
             &larr; Home
         </a>
-
 
         <!-- Content Centered in Header -->
         <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
@@ -550,49 +611,59 @@
                 <p style="font-style: italic;">"प्रेम और विश्वास का अनोखा संगम"</p>
             </div>
         </div>
+
+        <!-- Search and Cart Container -->
+        <!-- Inside the header's right container -->
+        <div
+            style="position: absolute; top: 50%; transform: translateY(-50%); right: 20px; display: flex; align-items: center;">
+            <!-- Search Icon and Input -->
+            <div class="search-container">
+                <i class="fa fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search sarees..." style="font-size: 20px; border-color: #00acc1; border-width: 1px;">
+            </div>
+            <!-- Cart Button -->
+            <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
+            </div>
+        </div>
     </header>
+
+    <!-- Add this to compensate for the fixed header -->
+    <div style="height: 100px; margin-bottom: 2rem;"></div>
 
 
 
     <!-- Add this after your nav element and before the saree grid -->
 
     <!-- filter button actions -->
-<!-- Filter button section - needs modification for client-side filtering -->
-<div class="container mt-4 p-3 shadow-sm rounded bg-white">
-    <div class="d-flex flex-wrap align-items-center justify-content-between">
-        <button id="filterButton" class="btn btn-pink d-flex align-items-center px-4 py-2 rounded-pill shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
-            <span>Filter</span>
-        </button>
-        <!-- Removed the commented out form as it's not needed for client-side filtering -->
+    <!-- Filter button section - needs modification for client-side filtering -->
+    <div class="container mt-4 p-3 shadow-sm rounded bg-white">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <button id="filterButton" class="btn btn-pink d-flex align-items-center px-4 py-2 rounded-pill shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                <span>Filter</span>
+            </button>
+            <!-- Removed the commented out form as it's not needed for client-side filtering -->
 
-        <div id="filterOptions" class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
-            <button class="btn filter-btn active" data-filter="All">All</button>
-            <button class="btn filter-btn" data-filter="Banarasi">Banarasi</button>
-            <button class="btn filter-btn" data-filter="Kanjivaram">Kanjivaram</button>
-            <button class="btn filter-btn" data-filter="Patola">Patola</button>
-            <button class="btn filter-btn" data-filter="Chanderi">Chanderi</button>
-            <button class="btn filter-btn" data-filter="Surti">Surti</button>
-            <button class="btn filter-btn" data-filter="Sambalpuri">Sambalpuri</button>
-            <button class="btn filter-btn" data-filter="Tant">Tant</button>
-            <button class="btn filter-btn" data-filter="Kasavu">Kasavu</button>
-            <button class="btn filter-btn" data-filter="Bandhani">Bandhani</button>
-            <button class="btn filter-btn" data-filter="Leheriya">Leheriya</button>
+            <div id="filterOptions" class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
+                <button class="btn filter-btn active" data-filter="All">All</button>
+                <button class="btn filter-btn" data-filter="Banarasi">Banarasi</button>
+                <button class="btn filter-btn" data-filter="Kanjivaram">Kanjivaram</button>
+                <button class="btn filter-btn" data-filter="Patola">Patola</button>
+                <button class="btn filter-btn" data-filter="Chanderi">Chanderi</button>
+                <button class="btn filter-btn" data-filter="Surti">Surti</button>
+                <button class="btn filter-btn" data-filter="Sambalpuri">Sambalpuri</button>
+                <button class="btn filter-btn" data-filter="Tant">Tant</button>
+                <button class="btn filter-btn" data-filter="Kasavu">Kasavu</button>
+                <button class="btn filter-btn" data-filter="Bandhani">Bandhani</button>
+                <button class="btn filter-btn" data-filter="Leheriya">Leheriya</button>
+            </div>
         </div>
     </div>
-</div>
 
-
-
-<!-- ---cart container -->
-
-    <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
-        <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
-
-    </div>
 
 
 
@@ -606,7 +677,7 @@
             {% endif %}
             {% for product in all_product %}
             <div class="col-md-3 product-item" style="margin-top: 2rem;" data-variety="{{ product.variety }}">
-                <div class="product-card" >
+                <div class="product-card">
                     <div class="product-image">
                         <img src="{{ product.product_image }}" alt="{{ product.product_name }}">
                     </div>
@@ -669,8 +740,8 @@
                         <!-- Sample Cart Item -->
                         <div class="list-group-item d-flex justify-content-between align-items-center p-3 mb-2"
                             style="border-radius: 10px; background: #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.2s;">
-                            
-                            
+
+
                         </div>
                         <!-- Dynamic items will appear here -->
                     </div>
@@ -809,7 +880,7 @@
     </div>
 
 
-     <!-- Payment modal -->
+    <!-- Payment modal -->
     <div class="modal fade" id="paymentModal" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -1005,7 +1076,7 @@
 
 
     <!-- ✅ JavaScript Fixes -->
-     <!-- Existing cart scripts remain unchanged -->
+    <!-- Existing cart scripts remain unchanged -->
     <script>
         let cart = {};
 
@@ -1080,37 +1151,37 @@
 
     </script>
 
-     <!-- Replace the filter script with the new client-side filtering implementation -->
-     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <!-- Replace the filter script with the new client-side filtering implementation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const productItems = document.querySelectorAll('.product-item');
-            
+
             // Initialize with 'All' selected
             let currentFilter = 'All';
-            
+
             // Add click event listeners to filter buttons
             filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     // Remove active class from all buttons
                     filterButtons.forEach(btn => btn.classList.remove('active'));
-                    
+
                     // Add active class to clicked button
                     this.classList.add('active');
-                    
+
                     // Get the filter value
                     currentFilter = this.getAttribute('data-filter');
-                    
+
                     // Filter the products
                     filterProducts(currentFilter);
                 });
             });
-            
+
             // Filter function
             function filterProducts(filter) {
                 productItems.forEach(item => {
                     const variety = item.getAttribute('data-variety');
-                    
+
                     if (filter === 'All' || filter === variety) {
                         item.style.display = 'block';
                     } else {
@@ -1118,7 +1189,7 @@
                     }
                 });
             }
-            
+
             // Add CSS for active button
             const style = document.createElement('style');
             style.innerHTML = `
@@ -1132,9 +1203,9 @@
         });
     </script>
 
-    
 
-<!--     -->
+
+    <!--     -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function closeAndResetModals() {
@@ -1243,7 +1314,66 @@
 
     </script>
 
+    <!-- ADD THIS BEFORE THE CLOSING BODY TAG -->
+    <script>
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchIcon = document.querySelector('.search-icon');
+            const searchInput = document.querySelector('.search-input');
+            const productItems = document.querySelectorAll('.product-item');
 
+            // Toggle search input visibility
+            searchIcon.addEventListener('click', function (e) {
+                e.stopPropagation();
+                searchInput.classList.toggle('active');
+                if (searchInput.classList.contains('active')) {
+                    searchInput.focus();
+                } else {
+                    searchInput.value = '';
+                    filterProductsBySearch('');
+                }
+            });
+
+            // Filter products based on search input
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.trim().toLowerCase();
+                filterProductsBySearch(searchTerm);
+            });
+
+            // Prevent search input from closing when clicking inside it
+            searchInput.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+
+            // Search filter function
+            function filterProductsBySearch(searchTerm) {
+                productItems.forEach(item => {
+                    const productName = item.querySelector('.product-name').textContent.toLowerCase();
+                    const productVariety = item.getAttribute('data-variety').toLowerCase();
+                    const productDescription = item.querySelector('.product-description').textContent.toLowerCase();
+
+                    if (searchTerm === '' ||
+                        productName.includes(searchTerm) ||
+                        productVariety.includes(searchTerm) ||
+                        productDescription.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+
+            // Close search when clicking outside
+            document.addEventListener('click', function () {
+                if (searchInput.classList.contains('active')) {
+                    searchInput.classList.remove('active');
+                    searchInput.value = '';
+                    filterProductsBySearch('');
+                }
+            });
+        });
+
+    </script>
 
 
 </body>
