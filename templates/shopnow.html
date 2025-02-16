@@ -799,7 +799,9 @@
                         </div>
                         <div class="col-md-4">
                             <label for="validationDefault02" class="form-label">Phone</label>
-                            <input type="phone" class="form-control" id="validationDefault02" name="phone" required>
+                            <input type="phone" class="form-control" id="validationDefault02"  pattern="[0-9]{10}"
+                            title="Enter a valid 10-digit phone number"  name="phone" required>
+                            
                         </div>
                         <div class="col-md-5">
                             <label for="validationDefault021" class="form-label">Address</label>

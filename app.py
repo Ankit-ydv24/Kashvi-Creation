@@ -73,7 +73,7 @@ def toggle_visibility(review_id):
         review.visibility_on_homepage = not review.visibility_on_homepage
         session.commit()
     
-    return redirect(url_for('admin'))
+    return redirect(url_for('admin')+'#reviews-management')
 
 
 
@@ -115,7 +115,7 @@ def review():
         session.add(new_review)
         session.commit()
         all_reviews = session.query(Review).filter_by(visibility_on_homepage = True).all()
-        return render_template('index.html',all_reviews = all_reviews)
+        return render_template('index.html',all_reviews = all_reviews,scroll_to='main')
 
     except Exception as e:
         session.rollback()

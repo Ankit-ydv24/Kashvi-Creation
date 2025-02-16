@@ -51,7 +51,7 @@
                         <a style="border-radius: 0%;">
                             <img class="navbar-logo"
                                 src="{{ url_for('static', filename='images/img-20250204-wa0006-224x224.jpg') }}"
-                                alt="Logo">
+                                alt="Logo" style="object-fit: contain;width: 2rem;">
                         </a>
                     </span>
                 </div>
@@ -100,7 +100,7 @@
   font-weight: 600;">Shop Now</a>
                     </div>
                     <div class="navbar-buttons mbr-section-btn">
-                        <button class="btn btn-primary display-4" onclick="openModal() " style="   font-family: 'Poppins', 'Arial', sans-serif;
+                        <button class="btn btn-secondary display-4" onclick="openModal() " style="   font-family: 'Poppins', 'Arial', sans-serif;
   font-weight: 600;">Admin Login</button>
                     </div>
 
@@ -494,7 +494,7 @@
         style="display: flex; align-items: flex-start;padding-bottom: 2rem;">
         <div class="container" id="get_in_touch"
             style="padding-top: 3rem; display: flex; flex-direction: row; justify-content: space-between; border-radius: 5px;">
-            <div class="col-12 content-head"
+            <div class="col-12 content-head" id="form_id_encourage"
                 style=" width: 35vw; padding: 1.5rem; text-align: center;box-shadow: 8px 10px 20px rgba(0, 0, 0, 0.4);border-radius: 3rem;background-color:#F7E3AF;">
                 <h2 style="font-size: 1.8rem; font-weight: bold;">Get in Touch</h2>
                 <p
@@ -513,18 +513,18 @@
                     <form action="/review" method="POST" class="mbr-form form-with-styler"
                         style="box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4);border-radius: 3rem;padding: 3rem;background-color: #F7E3AF;">
                         <input type="hidden" name="email" data-form-email="true">
-                        <h4 style="font-size: 1.5rem;padding: 1rem; padding-bottom: 2rem;">Your Feedback is Important to
+                        <h4 style="font-size: 1.5rem;padding: 1rem; padding-bottom: 2rem;text-align: center;">Your Feedback is Important to
                             Us!</h4>
                         <div class="dragArea row">
                             <div class="col-md-6 form-group mb-3">
                                 <input type="text" name="name" placeholder="Name" class="form-control" required>
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                                <input type="email" name="email" placeholder="Email" class="form-control" required>
+                                <input type="email" name="email" placeholder="Email" class="form-control">
                             </div>
                             <div class="col-12 form-group mb-3">
                                 <input type="tel" name="phone" placeholder="Phone" pattern="[0-9]{10}"
-                                    title="Enter a valid 10-digit phone number" class="form-control" required>
+                                    title="Enter a valid 10-digit phone number" class="form-control" >
                             </div>
                             <div class="col-12 form-group mb-3">
                                 <textarea name="message" placeholder="Your Feedback" class="form-control"
@@ -670,7 +670,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="{{url_for('static',filename='js/index.js')}}"></script>
 
-
+    
+    <script>
+        // Scroll only if scroll_to parameter is passed
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('scroll_to') === 'main') {
+                document.getElementById('main').scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+    </script>
 
 
 

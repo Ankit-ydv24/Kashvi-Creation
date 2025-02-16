@@ -1,4 +1,71 @@
 
+/* Mobile-Friendly CSS for Admin Dashboard */
+
+/* Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    padding: 1rem;
+    background-color: #6DD6DA;
+    text-align: center;
+  }
+  .sidebar a {
+    display: block;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+  
+  /* Main Content */
+  main {
+    padding: 1rem;
+  }
+  
+  /* Product List */
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  /* Modal Adjustments */
+  .modal-content iframe {
+    height: 400px;
+  }
+  
+  /* Buttons */
+  button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  /* Media Query for Mobile Devices */
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+    }
+    .sidebar {
+      width: 100%;
+    }
+    .table th, .table td {
+      font-size: 0.85rem;
+    }
+    .btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+    }
+    
+    .modal-content iframe {
+      height: 300px;
+    }
+  }
+  
 :root {
     --primary-aqua: #00838f;
     --secondary-aqua: #006064;
