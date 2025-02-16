@@ -26,9 +26,11 @@ class Product(Base):
     
     product_id = Column(Integer, primary_key=True)
     product_name = Column(String(100), nullable=False)
-    product_image = Column(String(255))
+    product_image1 = Column(String(255))
+    product_image2 = Column(String(255))
+    product_image3 = Column(String(255))
     variety = Column(String(20))
-    selling_price = Column(DECIMAL(10, 2), nullable=False)
+    
     description = Column(String(500))
     
     # Relationships
@@ -43,7 +45,7 @@ class Customer(Base):
     city = Column(String(50),  nullable=False)
     state = Column(String(50), nullable=False)
     address = Column(String(100), nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
+    phone = Column(String(100), unique=True, nullable=False)
     zip = Column(String(100), nullable=False)
     
     # Relationships
@@ -60,7 +62,7 @@ class Invoice(Base):
     invoice_id = Column(Integer, primary_key=True)
     customer_id = Column(Integer, ForeignKey('customers.customer_id'), nullable=False)
     invoice_date = Column(DateTime, default=datetime.utcnow)
-    total_amount = Column(DECIMAL(10, 2), nullable=False)
+    
     
     # Relationships
     customer = relationship('Customer', back_populates='invoices')
@@ -73,7 +75,7 @@ class InvoiceItem(Base):
     invoice_id = Column(Integer, ForeignKey('invoices.invoice_id'), nullable=False)
     product_id = Column(Integer, ForeignKey('products.product_id'))
     quantity = Column(Integer, nullable=False)
-    unit_price = Column(DECIMAL(10, 2), nullable=False)
+    
     
     # Relationships
     invoice = relationship('Invoice', back_populates='invoice_items')

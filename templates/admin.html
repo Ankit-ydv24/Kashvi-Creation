@@ -77,11 +77,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
-                                <label for="productPrice" class="form-label">Selling Price</label>
-                                <input name="price" type="number" class="form-control" id="productPrice"
-                                    placeholder="Enter selling price" required>
-                            </div>
+                            
                         </div>
                         <div>
                             <label for="productDescription" class="form-label">Product Description</label>
@@ -92,7 +88,17 @@
                         <div class="row g-3 mt-3">
                             <div class="col-md-8">
                                 <label for="productImage" class="form-label">Product Image</label>
-                                <input name="image" type="file" class="form-control" id="productImage" accept="image/*"
+                                <input name="image1" type="file" class="form-control" id="productImage1" accept="image/*"
+                                    required>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="productImage" class="form-label">Product Image</label>
+                                <input name="image2" type="file" class="form-control" id="productImage2" accept="image/*"
+                                    required>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="productImage" class="form-label">Product Image</label>
+                                <input name="image3" type="file" class="form-control" id="productImage3" accept="image/*"
                                     required>
                             </div>
                             <div class="col-md-4 d-flex align-items-end">
@@ -117,7 +123,7 @@
                                             <th>Product Name</th>
                                             <th>Description</th>
                                             <th>Variety</th>
-                                            <th>Selling Price</th>
+                                           
                                             <th>Image</th>
                                             <th>Action</th>
                                         </tr>
@@ -136,8 +142,8 @@
                                             <td style="font-size: large;">{{ product.product_name }}</td>
                                             <td>{{ product.description }}</td>
                                             <td>{{ product.variety }}</td>
-                                            <td>{{ product.selling_price }}</td>
-                                            <td><img src="{{ product.product_image }}" alt="Product Image"
+                                            
+                                            <td><img src="{{ product.product_image1 }}" alt="Product Image"
                                                     class="img-fluid rounded" style="max-width: 150px;"></td>
                                             <td>
                                                 <form action="/delete_product" method="post">

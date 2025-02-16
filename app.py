@@ -9,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from db import engine
 from werkzeug.utils import secure_filename
 from sqlalchemy.exc import IntegrityError
-
+from reportlab import *
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
 from reportlab.lib import colors
@@ -131,23 +131,34 @@ def addproduct():
     # Get form data
     name = request.form['name']
     description = request.form['description']
-    price = request.form['price']
+   
     variety = request.form['variety']
     # Check if image file exists and is allowed
-    image_file = request.files.get('image')
-    if image_file and allowed_file(image_file.filename):
+    image_file1= request.files.get('image1')
+    image_file2= request.files.get('image2')
+    image_file3= request.files.get('image3')
+    if image_file1 and image_file2 and image_file3 and allowed_file(image_file1.filename) and allowed_file(image_file2.filename) and allowed_file(image_file3.filename):
         # Secure the filename and save the file
-        filename = secure_filename(image_file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        image_file.save(file_path)
+        filename1 = secure_filename(image_file1.filename)
+        filename2 = secure_filename(image_file2.filename)
+        filename3 = secure_filename(image_file3.filename)
+        file_path1 = os.path.join(app.config['UPLOAD_FOLDER'], filename1)
+        file_path2 = os.path.join(app.config['UPLOAD_FOLDER'], filename2)
+        file_path3 = os.path.join(app.config['UPLOAD_FOLDER'], filename3)
+        image_file1.save(file_path1)
+        image_file2.save(file_path2)
+        image_file3.save(file_path3)
+
         
         # Save product details to the database
         session = SessionLocal()
         try:
             new_product = Product(
                 product_name=name,
-                product_image=file_path,  # Save the file path
-                selling_price=price,
+                product_image1 = file_path1,  # Save the file path
+                product_image2 = file_path2,  # Save the file path
+                product_image3 = file_path3,  # Save the file path
+                
                 description=description,
                 variety = variety
             )
@@ -200,7 +211,7 @@ def add_customer():
     try:
         # Extract customer details
         name = request.form.get('name')
-        email = request.form.get('email')
+        phone = request.form.get('phone')
         address = request.form.get('address')
         city = request.form.get('city')
         state = request.form.get('state')
@@ -211,24 +222,19 @@ def add_customer():
         cart = json.loads(cart_data) if cart_data else {}
 
         # Check if the customer exists
-        customer = session.query(Customer).filter_by(email=email).first()
+        customer = session.query(Customer).filter_by(phone=phone).first()
         if not customer:
-            customer = Customer(username=name, email=email, address=address, city=city, state=state, zip=zip_code)
+            customer = Customer(username=name, phone=phone, address=address, city=city, state=state, zip=zip_code)
             session.add(customer)
             session.commit()
             customer_added = True
 
         # Calculate total amount
-        total_amount = 0
-        for product_id, quantity in cart.items():
-            product = session.query(Product).get(int(product_id))
-            if product:
-                total_amount += product.selling_price * cart[product_id]['quantity']
-
+     
 
         # Create invoice
         if cart:
-            invoice = Invoice(customer_id=customer.customer_id, total_amount=total_amount)
+            invoice = Invoice(customer_id=customer.customer_id)
             session.add(invoice)
             session.commit()
             curr_invoice = invoice.invoice_id
@@ -238,12 +244,12 @@ def add_customer():
                 product = session.query(Product).get(int(product_id))
                 if product:
                     quantity = item['quantity']
-                    unit_price = float(item['price'])
+                   
                     invoice_item = InvoiceItem(
                         invoice_id=invoice.invoice_id,
                         product_id=product.product_id,
                         quantity=quantity,
-                        unit_price=unit_price
+                        
                     )
                     session.add(invoice_item)
 
@@ -284,14 +290,35 @@ def generate_invoice(invoice_id):
 
         # Add logo
         logo_path = os.path.join("static", "images", "img-20250204-wa0006-224x224.jpg")
-        if os.path.exists(logo_path):
-            elements.append(Image(logo_path, width=170, height=170))
-        elements.append(Spacer(1, 10))
-
+        # if os.path.exists(logo_path):
+        #     elements.append(Image(logo_path, width=170, height=170))
+        # elements.append(Spacer(1, 10))
+        logo = Image(logo_path, width=170, height=170)
         # Add company name and Hindi tagline
+        address = """
+        <b>Kashvi Creation</b><br/>
+        Shop No. 113, Millennium Textile Market - 2,<br/>
+        Ring Road, Surat - 395002.<br/>
+        <b>Email:</b> kashvicreation10@gmail.com<br/>
+        """
 
-       
+        header_table = Table([
+            [logo, Paragraph(address, styles["Normal"])]
+        ], colWidths=[180, 300])
+
+        header_table.setStyle(TableStyle([
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ('LEFTPADDING', (1, 0), (1, 0), 10),
+        ]))
+
+        elements.append(header_table)
         elements.append(Spacer(1, 10))
+
+        # Solid Line
+        elements.append(Paragraph("<hr width='100%' color='black'/>", styles["Normal"]))
+        elements.append(Spacer(1, 10))
+            
+     
 
         # Line separator
         elements.append(Paragraph("<hr width='100%'/>", styles["Normal"]))
@@ -300,7 +327,7 @@ def generate_invoice(invoice_id):
         # Customer details
         customer_details = f"""
         <b>Customer:</b> {invoice.customer.username}<br/>
-        <b>Email:</b> {invoice.customer.email}<br/>
+        <b>Email:</b> {invoice.customer.phone}<br/>
         <b>Address:</b> {invoice.customer.address}, {invoice.customer.city}, {invoice.customer.state}<br/>
         
         <b>Zip:</b> {invoice.customer.zip}
@@ -309,12 +336,12 @@ def generate_invoice(invoice_id):
         elements.append(Spacer(1, 20))
 
         # Invoice table
-        data = [["Product", "Quantity", "Unit Price", "Total"]]
+        data = [["Product", "Quantity", "Variety"]]
         for item in invoice.invoice_items:
-            total = float(item.quantity) * float(item.unit_price)
-            data.append([item.product.product_name, str(item.quantity), f"{item.unit_price}", f"{total}"])
+            
+            data.append([item.product.product_name, str(item.quantity),item.product.variety])
 
-        table = Table(data, hAlign='LEFT', colWidths=[130, 80, 80, 80])
+        table = Table(data, hAlign='LEFT', colWidths=[130, 80, 80])
         table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.royalblue),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.gold),
@@ -327,8 +354,7 @@ def generate_invoice(invoice_id):
         elements.append(Spacer(1, 20))
 
         # Total Amount at Bottom Right
-        elements.append(Paragraph(f"<b>Total Amount:</b> Rs {invoice.total_amount} ", styles["Normal"]))
-        elements.append(Spacer(1, 30))
+       
 
         # Thank You Message at Bottom
         elements.append(Paragraph('<font size="16">Thank you for visiting Kashvi Creation!</font>', styles["Normal"]))

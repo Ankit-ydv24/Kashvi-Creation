@@ -529,6 +529,7 @@
             }
         }
     </style>
+  
 
 
 </head>
@@ -557,37 +558,37 @@
     <!-- Add this after your nav element and before the saree grid -->
 
     <!-- filter button actions -->
-<!-- Filter button section - needs modification for client-side filtering -->
-<div class="container mt-4 p-3 shadow-sm rounded bg-white">
-    <div class="d-flex flex-wrap align-items-center justify-content-between">
-        <button id="filterButton" class="btn btn-pink d-flex align-items-center px-4 py-2 rounded-pill shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
-            <span>Filter</span>
-        </button>
-        <!-- Removed the commented out form as it's not needed for client-side filtering -->
+    <!-- Filter button section - needs modification for client-side filtering -->
+    <div class="container mt-4 p-3 shadow-sm rounded bg-white">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <button id="filterButton" class="btn btn-pink d-flex align-items-center px-4 py-2 rounded-pill shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                <span>Filter</span>
+            </button>
+            <!-- Removed the commented out form as it's not needed for client-side filtering -->
 
-        <div id="filterOptions" class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
-            <button class="btn filter-btn active" data-filter="All">All</button>
-            <button class="btn filter-btn" data-filter="Banarasi">Banarasi</button>
-            <button class="btn filter-btn" data-filter="Kanjivaram">Kanjivaram</button>
-            <button class="btn filter-btn" data-filter="Patola">Patola</button>
-            <button class="btn filter-btn" data-filter="Chanderi">Chanderi</button>
-            <button class="btn filter-btn" data-filter="Surti">Surti</button>
-            <button class="btn filter-btn" data-filter="Sambalpuri">Sambalpuri</button>
-            <button class="btn filter-btn" data-filter="Tant">Tant</button>
-            <button class="btn filter-btn" data-filter="Kasavu">Kasavu</button>
-            <button class="btn filter-btn" data-filter="Bandhani">Bandhani</button>
-            <button class="btn filter-btn" data-filter="Leheriya">Leheriya</button>
+            <div id="filterOptions" class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
+                <button class="btn filter-btn active" data-filter="All">All</button>
+                <button class="btn filter-btn" data-filter="Banarasi">Banarasi</button>
+                <button class="btn filter-btn" data-filter="Kanjivaram">Kanjivaram</button>
+                <button class="btn filter-btn" data-filter="Patola">Patola</button>
+                <button class="btn filter-btn" data-filter="Chanderi">Chanderi</button>
+                <button class="btn filter-btn" data-filter="Surti">Surti</button>
+                <button class="btn filter-btn" data-filter="Sambalpuri">Sambalpuri</button>
+                <button class="btn filter-btn" data-filter="Tant">Tant</button>
+                <button class="btn filter-btn" data-filter="Kasavu">Kasavu</button>
+                <button class="btn filter-btn" data-filter="Bandhani">Bandhani</button>
+                <button class="btn filter-btn" data-filter="Leheriya">Leheriya</button>
+            </div>
         </div>
     </div>
-</div>
 
 
 
-<!-- ---cart container -->
+    <!-- ---cart container -->
 
     <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
         <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
@@ -599,6 +600,7 @@
 
     <!-- product display -->
     <!-- Product display section - remains mostly unchanged, just need to add data-variety attribute -->
+    <!-- function showSareeDetail(productId, name, description, variety, image1,image2,image3)  -->
     <div class="container">
         <div class="row" id="product-list">
             {% if all_product|length == 0 %}
@@ -606,10 +608,18 @@
             {% endif %}
             {% for product in all_product %}
             <div class="col-md-3 product-item" style="margin-top: 2rem;" data-variety="{{ product.variety }}">
-                <div class="product-card" >
+                <div class="product-card"
+                    onclick='showSareeDetail("{{ product.productid }}","{{product.product_name}}","{{product.description}}","{{product.variety}}","{{product.product_image1}}","{{product.product_image2}}","{{product.product_image3}}")'>
+                    <!-- Image Carousel -->
                     <div class="product-image">
-                        <img src="{{ product.product_image }}" alt="{{ product.product_name }}">
+                        <img src="{{ product.product_image2 }}" alt="{{ product.product_name }}">
+                        <p>{{product.product_image2}}</p>
                     </div>
+
+                    <!-- Lightbox (for Enlarged Image) -->
+
+
+                    <!-- Product Details -->
                     <div class="product-details">
                         <h3 class="product-name">{{ product.product_name }}</h3>
                         <p class="product-description">
@@ -620,15 +630,17 @@
                         </p>
                         <p class="product-price">{{ product.variety }}</p>
                         <p class="product-prices" style="display: none;">{{ product.selling_price }}</p>
+
+                        <!-- Add to Cart Button -->
                         <button class="cart-btn" id="liveAlertBtn" style="
-                        background: linear-gradient(135deg, #00b894, #008080);
-                        color: #fff;
-                        padding: 0.75rem 1.5rem;
-                        border: none;
-                        border-radius: 10px;
-                        font-size: 1.1rem;
-                        transition: transform 0.2s, box-shadow 0.3s;
-                    " onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 5px 15px rgba(0, 184, 148, 0.5)';"
+                            background: linear-gradient(135deg, #00b894, #008080);
+                            color: #fff;
+                            padding: 0.75rem 1.5rem;
+                            border: none;
+                            border-radius: 10px;
+                            font-size: 1.1rem;
+                            transition: transform 0.2s, box-shadow 0.3s;"
+                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 5px 15px rgba(0, 184, 148, 0.5)';"
                             onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
                             onclick="addToCart('{{ product.product_id }}', '{{ product.product_name }}', '{{ product.selling_price }}')">
                             🛒 Add to Cart
@@ -669,8 +681,8 @@
                         <!-- Sample Cart Item -->
                         <div class="list-group-item d-flex justify-content-between align-items-center p-3 mb-2"
                             style="border-radius: 10px; background: #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.2s;">
-                            
-                            
+
+
                         </div>
                         <!-- Dynamic items will appear here -->
                     </div>
@@ -720,8 +732,8 @@
                             <input type="text" class="form-control" id="validationDefault01" name="name" required>
                         </div>
                         <div class="col-md-4">
-                            <label for="validationDefault02" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="validationDefault02" name="email" required>
+                            <label for="validationDefault02" class="form-label">Phone</label>
+                            <input type="phone" class="form-control" id="validationDefault02" name="phone" required>
                         </div>
                         <div class="col-md-5">
                             <label for="validationDefault021" class="form-label">Address</label>
@@ -809,7 +821,7 @@
     </div>
 
 
-     <!-- Payment modal -->
+    <!-- Payment modal -->
     <div class="modal fade" id="paymentModal" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -938,6 +950,7 @@
 
 
     <!-- Modern Saree Detail Modal -->
+    <!-- Modern Saree Detail Modal -->
     <div class="modal fade" id="sareeDetailModal" tabindex="-1" aria-labelledby="sareeDetailModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -948,19 +961,65 @@
                     style="background: linear-gradient(135deg, #008080, #005959); color: white; padding: 1.5rem;">
                     <h5 class="modal-title" id="sareeDetailModalLabel" style="font-weight: 600; letter-spacing: 1px;">
                         🛍️ Saree Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="closeAndResetModals()"></button>
                 </div>
 
                 <!-- Body -->
                 <div class="modal-body" style="background: #f5f7fa; color: #333;">
                     <div class="row align-items-center">
-                        <!-- Image Column -->
+                        <!-- Image Column with Carousel -->
                         <div class="col-md-6 mb-4 mb-md-0">
-                            <div
-                                style="border-radius: 15px; overflow: hidden; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
-                                <img id="modalSareeImage" src="" alt="Saree" class="img-fluid"
-                                    style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                            <div id="sareeImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <!-- Carousel Inner -->
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="image-container"
+                                            style="border-radius: 15px; overflow: hidden; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+                                            <img id="modalSareeImage1" src="" alt="Saree"
+                                                class="img-fluid zoomable-image"
+                                                style="width: 100%; height: 400px; object-fit: cover; cursor: zoom-in;">
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="image-container"
+                                            style="border-radius: 15px; overflow: hidden; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+                                            <img id="modalSareeImage2" src="" alt="Saree"
+                                                class="img-fluid zoomable-image"
+                                                style="width: 100%; height: 400px; object-fit: cover; cursor: zoom-in;">
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="image-container"
+                                            style="border-radius: 15px; overflow: hidden; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+                                            <img id="modalSareeImage3" src="" alt="Saree"
+                                                class="img-fluid zoomable-image"
+                                                style="width: 100%; height: 400px; object-fit: cover; cursor: zoom-in;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Carousel Controls -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#sareeImageCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#sareeImageCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+
+                                <!-- Carousel Indicators -->
+                                <div class="carousel-indicators" style="bottom: -40px;">
+                                    <button type="button" data-bs-target="#sareeImageCarousel" data-bs-slide-to="0"
+                                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#sareeImageCarousel" data-bs-slide-to="1"
+                                        aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#sareeImageCarousel" data-bs-slide-to="2"
+                                        aria-label="Slide 3"></button>
+                                </div>
                             </div>
                         </div>
 
@@ -972,7 +1031,6 @@
                                 style="font-size: 1.1rem; line-height: 1.5; color: #555;"></p>
 
                             <!-- Price Section -->
-                            <!-- Price Section -->
                             <div class="price-section mb-4">
                                 <div class="variety-label">
                                     <span>Variety</span>
@@ -983,15 +1041,9 @@
                             </div>
 
                             <!-- Action Button -->
-                            <button class="btn" id="modalAddToCartBtn" style="
-                            background: linear-gradient(135deg, #00b894, #008080);
-                            color: #fff;
-                            padding: 0.75rem 1.5rem;
-                            border: none;
-                            border-radius: 10px;
-                            font-size: 1.1rem;
-                            transition: transform 0.2s, box-shadow 0.3s;
-                        " onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 5px 15px rgba(0, 184, 148, 0.5)';"
+                            <button class="btn" id="modalAddToCartBtn"
+                                style="background: linear-gradient(135deg, #00b894, #008080); color: #fff; padding: 0.75rem 1.5rem; border: none; border-radius: 10px; font-size: 1.1rem; transition: transform 0.2s, box-shadow 0.3s;"
+                                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 5px 15px rgba(0, 184, 148, 0.5)';"
                                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
                                 🛒 Add to Cart
                             </button>
@@ -1002,10 +1054,25 @@
         </div>
     </div>
 
+    <!-- Full Screen Image Modal -->
+    <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true" style="height: 100vh;">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content bg-black">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center" style="height: 90vh;">
+                    <img id="zoomedImage" src="" alt="Zoomed Saree"
+                        style="height: 100vh; max-width: 90vw; object-fit:cover;position: relative; top: 2rem;">
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- ✅ JavaScript Fixes -->
-     <!-- Existing cart scripts remain unchanged -->
+    <!-- Existing cart scripts remain unchanged -->
     <script>
         let cart = {};
 
@@ -1037,7 +1104,7 @@
                 div.innerHTML = `
             <div>
                 <strong>${item.name}</strong>
-                <p class="text-muted">₹${item.price} x ${item.quantity}</p>
+                <p class="text-muted">${item.variety}</p>
             </div>
             <div>
                 <button class="btn btn-outline-secondary btn-sm" onclick="changeQuantity('${productId}', 1)">+</button>
@@ -1080,37 +1147,37 @@
 
     </script>
 
-     <!-- Replace the filter script with the new client-side filtering implementation -->
-     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <!-- Replace the filter script with the new client-side filtering implementation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const productItems = document.querySelectorAll('.product-item');
-            
+
             // Initialize with 'All' selected
             let currentFilter = 'All';
-            
+
             // Add click event listeners to filter buttons
             filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     // Remove active class from all buttons
                     filterButtons.forEach(btn => btn.classList.remove('active'));
-                    
+
                     // Add active class to clicked button
                     this.classList.add('active');
-                    
+
                     // Get the filter value
                     currentFilter = this.getAttribute('data-filter');
-                    
+
                     // Filter the products
                     filterProducts(currentFilter);
                 });
             });
-            
+
             // Filter function
             function filterProducts(filter) {
                 productItems.forEach(item => {
                     const variety = item.getAttribute('data-variety');
-                    
+
                     if (filter === 'All' || filter === variety) {
                         item.style.display = 'block';
                     } else {
@@ -1118,7 +1185,7 @@
                     }
                 });
             }
-            
+
             // Add CSS for active button
             const style = document.createElement('style');
             style.innerHTML = `
@@ -1132,14 +1199,14 @@
         });
     </script>
 
-    
 
-<!--     -->
+
+    <!--     -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function closeAndResetModals() {
             // Close all modals
-            const modals = ['cartModal', 'exampleModal', 'paymentModal'];
+            const modals = ['cartModal', 'exampleModal', 'paymentModal', 'sareeDetailModal'];
             modals.forEach(modalId => {
                 const modalElement = document.getElementById(modalId);
                 if (modalElement) {
@@ -1217,31 +1284,81 @@
             });
         });
 
-        function showSareeDetail(productId, name, description, price, image) {
-            currentProduct = {
-                id: productId,
-                name: name,
-                price: price.replace('₹', '')
-            };
+        // Add this to your existing JavaScript
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get all zoomable images
+            const zoomableImages = document.querySelectorAll('.zoomable-image');
+            const zoomModal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
+            const zoomedImage = document.getElementById('zoomedImage');
 
-            // Update modal content
-            document.getElementById('modalSareeName').textContent = name;
-            document.getElementById('modalSareeDescription').textContent = description;
-            document.getElementById('modalSareePrice').textContent = price;
-            document.getElementById('modalSareeImage').src = image;
+            // Add click handler to each zoomable image
+            zoomableImages.forEach(img => {
+                img.addEventListener('click', function () {
+                    zoomedImage.src = this.src;
+                    zoomModal.show();
+                });
+            });
+        });
 
-            // Add to cart button handler
-            document.getElementById('modalAddToCartBtn').onclick = function () {
-                addToCart(currentProduct.id, currentProduct.name, currentProduct.price);
-                appendAlert('Item has been added to your Cart!', 'success');
-            };
+        // Update the showSareeDetail function to handle image loading
+        function showSareeDetail(productId, name, description, variety, image1, image2, image3) {
+            try {
+                // Store current product data
+                currentProduct = {
+                    id: productId,
+                    name: name,
+                    variety: variety,
+                    description: description,
+                };
 
-            // Show the modal
-            const modal = new bootstrap.Modal(document.getElementById('sareeDetailModal'));
-            modal.show();
+                // Update modal content
+                document.getElementById('modalSareeName').textContent = name;
+                document.getElementById('modalSareeDescription').textContent = description;
+                document.getElementById('modalSareePrice').textContent = variety;
+
+                // Convert backslashes to forward slashes and ensure proper path
+                const formatPath = (path) => {
+                    // Ensure path is a string and long enough
+                    if (typeof path !== 'string') {
+                        return 'Invalid path';
+                    }
+
+                    // If path is shorter than 14 characters, just return it
+                    if (path.length < 14) {
+                        return path;
+                    }
+
+                    // Insert a backslash at the 14th index
+                    return path.slice(0, 14) + '\\' + path.slice(14);
+                };
+
+
+                // Update carousel images with properly formatted paths
+                const img1 = document.getElementById('modalSareeImage1');
+                const img2 = document.getElementById('modalSareeImage2');
+                const img3 = document.getElementById('modalSareeImage3');
+
+                if (img1) img1.src = formatPath(image1);
+                if (img2) img2.src = formatPath(image2);
+                if (img3) img3.src = formatPath(image3);
+               
+                // Show the modal
+                const modalElement = document.getElementById('sareeDetailModal');
+                if (!modalElement) {
+                    console.error('Modal element not found');
+                    return;
+                }
+
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+
+            } catch (error) {
+                console.error('Error showing modal:', error);
+            }
         }
 
     </script>
+
 
 
 
