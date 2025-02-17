@@ -1139,17 +1139,7 @@
 
 
     <!-- ✅ JavaScript Fixes -->
-    <script>
-        const zoomSlider = document.getElementById('zoom');
-        const zoomLevel = document.getElementById('zoom-level');
-        const image = document.getElementById('image');
-
-        zoomSlider.addEventListener('input', function() {
-            const scale = this.value / 100;
-            image.style.transform = `scale(${scale})`;
-            zoomLevel.textContent = this.value + '%';
-        });
-    </script>
+  
     <script>
 
         let cart = {};
