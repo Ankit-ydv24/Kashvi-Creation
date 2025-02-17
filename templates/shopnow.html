@@ -1401,7 +1401,7 @@
                     console.error('Modal element not found');
                     return;
                 }
-
+                document.getElementById('modalSareeName').setAttribute('data-id', productId);
                 const modal = new bootstrap.Modal(modalElement);
                 modal.show();
 
