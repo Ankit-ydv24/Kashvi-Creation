@@ -593,6 +593,8 @@
                 width: 150px;
             }
         }
+
+        
     </style>
 
 </head>
@@ -757,7 +759,7 @@
                     <!-- Total and Checkout -->
                     <div class="mt-4 d-flex justify-content-between align-items-center"
                         style="border-top: 2px solid #ddd; padding-top: 1.5rem;">
-                       
+
                         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="
                         background: linear-gradient(135deg, #00b894, #008080);
                         color: #fff;
@@ -799,9 +801,9 @@
                         </div>
                         <div class="col-md-4">
                             <label for="validationDefault02" class="form-label">Phone</label>
-                            <input type="phone" class="form-control" id="validationDefault02"  pattern="[0-9]{10}"
-                            title="Enter a valid 10-digit phone number"  name="phone" required>
-                            
+                            <input type="phone" class="form-control" id="validationDefault02" pattern="[0-9]{10}"
+                                title="Enter a valid 10-digit phone number" name="phone" required>
+
                         </div>
                         <div class="col-md-5">
                             <label for="validationDefault021" class="form-label">Address</label>
@@ -863,7 +865,7 @@
                         </div>
                         <input type="hidden" id="cartProductData" name="cart_product_data">
 
-                       
+
                         <div class="col-12">
                             <div class="container py-5">
                                 <button class="btn btn-primary" data-bs-toggle="modal"
@@ -1116,26 +1118,40 @@
     </div>
 
     <!-- Full Screen Image Modal -->
+    <!-- Replace the existing image zoom modal with this updated version -->
+    <!-- Full Screen Image Modal -->
     <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content bg-black">
+        <div class="modal-dialog modal-fullscreen" style="height: 100vh;">
+            <div class="modal-content bg-white">
                 <div class="modal-header border-0">
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body d-flex align-items-center justify-content-center">
+                <div style="background-color:white" class="zoom-container">
                     <img id="zoomedImage" src="" alt="Zoomed Saree"
-                        style="max-height: 90vh; max-width: 90vw; object-fit: contain; position: relative; top: 3rem;">
+                        style="height: 90vh; width: 90vw; object-fit: contain; position: relative; top: 3rem;border-radius: 2rem;">
                 </div>
+               
+            
             </div>
         </div>
     </div>
 
 
-
     <!-- ✅ JavaScript Fixes -->
-    <!-- Existing cart scripts remain unchanged -->
     <script>
+        const zoomSlider = document.getElementById('zoom');
+        const zoomLevel = document.getElementById('zoom-level');
+        const image = document.getElementById('image');
+
+        zoomSlider.addEventListener('input', function() {
+            const scale = this.value / 100;
+            image.style.transform = `scale(${scale})`;
+            zoomLevel.textContent = this.value + '%';
+        });
+    </script>
+    <script>
+
         let cart = {};
 
 
@@ -1159,7 +1175,7 @@
 
             Object.keys(cart).forEach(productId => {
                 let item = cart[productId];
-              
+
 
                 let div = document.createElement("div");
                 div.className = "list-group-item d-flex justify-content-between align-items-center";
@@ -1344,11 +1360,14 @@
             const zoomableImages = document.querySelectorAll('.zoomable-image');
             const zoomModal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
             const zoomedImage = document.getElementById('zoomedImage');
+            
+
 
             // Add click handler to each zoomable image
             zoomableImages.forEach(img => {
                 img.addEventListener('click', function () {
                     zoomedImage.src = this.src;
+                
                     zoomModal.show();
                 });
             });
