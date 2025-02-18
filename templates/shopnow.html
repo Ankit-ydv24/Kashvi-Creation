@@ -538,7 +538,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            margin-right: 15px;
+            margin-right: 0px;
             font-size: small;
         }
 
@@ -596,6 +596,116 @@
 
         
     </style>
+    <style>
+        /* Wishlist Icon Styles */
+        .wishlist-container {
+            position: relative;
+            background: rgb(68, 201, 201);
+            width: 4.5rem;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 50px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s ease-in-out;
+            margin: 0 15px;
+        }
+
+        .wishlist-container:hover {
+            background: aquamarine;
+        }
+
+        .wishlist-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: rgb(8, 132, 132);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .wishlist-icon:hover {
+            color: #ff4d4d;
+            transform: scale(1.1);
+        }
+
+        /* Empty State Styles */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: rgb(8, 132, 132);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .empty-state p {
+            color: #666;
+        }
+
+        /* Scrollable Modal Content */
+        .modal-body-scrollable {
+            max-height: 50vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgb(8, 132, 132) #f0f0f0;
+        }
+
+        .modal-body-scrollable::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body-scrollable::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .modal-body-scrollable::-webkit-scrollbar-thumb {
+            background: rgb(8, 132, 132);
+            border-radius: 4px;
+        }
+
+        /* Cart Item Styles */
+        .cart-item-action {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: rgb(8, 132, 132);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: #ff4d4d;
+            transform: scale(1.1);
+        }
+
+        .delete-btn {
+            color: #ff4d4d;
+        }
+
+        .delete-btn:hover {
+            color: #ff0000;
+        }
+    </style>
 
 </head>
 
@@ -628,6 +738,10 @@
                 <input type="text" class="search-input" placeholder="Search sarees..."
                     style="font-size: 16px; border-color: #00acc1; border-width: 2px; padding: 8px 15px;">
             </div>
+            <!-- wishlist icon -->
+            <div class="wishlist-container" data-bs-toggle="modal" data-bs-target="#wishlistModal">
+                <i class="fa fa-heart"></i> <span id="wishlist-count" style="padding-left: 0.4rem;">0</span>
+            </div>
             <!-- Cart Button -->
             <div class="cart-container" data-bs-toggle="modal" data-bs-target="#cartModal">
                 <i class="fa fa-shopping-cart"></i> <span id="cart-count">0</span>
@@ -728,6 +842,25 @@
         </div>
     </footer>
 
+
+   
+    <div class="modal fade" id="wishlistModal" aria-labelledby="wishlistModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #008080, #004d4d); color: #fff;">
+                    <h5 class="modal-title" id="wishlistModalLabel">
+                        <i class="fa fa-heart"></i> Your Wishlist
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body modal-body-scrollable">
+                    <div id="wishlist-items">
+                        <!-- Empty state will be shown here when wishlist is empty -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Cart Modal -->
     <!-- Modern Shopping Cart Modal -->
     <div class="modal fade" id="cartModal" aria-labelledby="cartModalLabel" aria-hidden="true">
@@ -1162,6 +1295,10 @@
             let cartList = document.getElementById("cart-items");
             let totalAmount = 0;
             cartList.innerHTML = ""; // Clear cart before adding
+            if (Object.keys(cart).length === 0) {
+                initializeEmptyStates();
+                return;
+            }
 
             Object.keys(cart).forEach(productId => {
                 let item = cart[productId];
@@ -1174,13 +1311,20 @@
                 <strong>${item.name}</strong>
                 <p class="text-muted">Quantity = ${item.quantity}</p>
             </div>
-            <div>
-                <button class="btn btn-outline-secondary btn-sm" onclick="changeQuantity('${productId}', 1)">+</button>
-                <button class="btn btn-outline-secondary btn-sm" onclick="changeQuantity('${productId}', -1)">-</button>
-            </div>
-        `;
+            <div class="cart-item-action">
+                        <button class="action-btn" onclick="changeQuantity('${productId}', 1)">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="action-btn" onclick="changeQuantity('${productId}', -1)">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button class="action-btn delete-btn" onclick="removeFromCart('${productId}')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
                 cartList.appendChild(div);
-            });
+            });
 
             // Update total price
             document.getElementById("cart-total").innerText = totalAmount;
@@ -1222,8 +1366,91 @@
             // Add to cart using existing function
             addToCart(productId, productName);
         });
+        function removeFromCart(productId) {
+            delete cart[productId];
+            document.getElementById("cart-count").innerText = Object.keys(cart).length;
+            updateCartModal();
+        }
 
     </script>
+    <!--wishlist script  -->
+    <script>
+        let wishlist = {};
+
+        // Initialize empty states
+        function initializeEmptyStates() {
+            // Cart empty state
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa fa-shopping-cart"></i>
+                    <h3>Your Cart is empty</h3>
+                    <p>You haven't added anything to your cart yet.</p>
+                </div>
+            `;
+
+            // Wishlist empty state
+            const wishlistItems = document.getElementById('wishlist-items');
+            wishlistItems.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa fa-heart"></i>
+                    <h3>Your Wishlist is empty</h3>
+                    <p>You haven't added anything yet.</p>
+                </div>
+            `;
+        }
+
+        // Call this when the page loads
+        document.addEventListener('DOMContentLoaded', initializeEmptyStates);
+
+        // Add to wishlist function
+        function addToWishlist(productId, productName) {
+            productId = String(productId);
+            if (!wishlist[productId]) {
+                wishlist[productId] = { name: productName, id: productId };
+                document.getElementById("wishlist-count").innerText = Object.keys(wishlist).length;
+                updateWishlistModal();
+            }
+        }
+
+        // Update wishlist modal
+        function updateWishlistModal() {
+            const wishlistContainer = document.getElementById("wishlist-items");
+            if (Object.keys(wishlist).length === 0) {
+                initializeEmptyStates();
+                return;
+            }
+
+            wishlistContainer.innerHTML = "";
+            Object.values(wishlist).forEach(item => {
+                const div = document.createElement("div");
+                div.className = "list-group-item d-flex justify-content-between align-items-center p-3 mb-2";
+                div.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong>
+                    </div>
+                    <div class="cart-item-action">
+                        <button class="action-btn" onclick="moveToCart('${item.id}')">
+                            <i class="fa fa-shopping-cart"></i>
+                        </button>
+                        <button class="action-btn delete-btn" onclick="removeFromWishlist('${item.id}')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                wishlistContainer.appendChild(div);
+            });
+        }
+
+        // Remove from wishlist
+        function removeFromWishlist(productId) {
+            delete wishlist[productId];
+            document.getElementById("wishlist-count").innerText = Object.keys(wishlist).length;
+            updateWishlistModal();
+        }
+    </script>
+
+
 
     <!-- Replace the filter script with the new client-side filtering implementation -->
     <script>
@@ -1309,7 +1536,28 @@
         }
 
     </script>
+
+    
+
+
+
     <script>
+        // icon of wishlist 
+        document.querySelectorAll('.product-card').forEach(card => {
+            const imageContainer = card.querySelector('.product-image');
+            const productId = card.querySelector('.cart-btn').getAttribute('onclick').match(/'([^']+)'/)[1];
+            const productName = card.querySelector('.product-name').textContent;
+
+            const wishlistIcon = document.createElement('div');
+            wishlistIcon.className = 'wishlist-icon';
+            wishlistIcon.innerHTML = '<i class="fa fa-heart"></i>';
+            wishlistIcon.onclick = (e) => {
+                e.stopPropagation();
+                addToWishlist(productId, productName);
+            };
+
+            imageContainer.appendChild(wishlistIcon);
+        });
         document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('showModal') === 'true') {
