@@ -61,6 +61,7 @@
 
         .cart-container:hover {
             background: aquamarine;
+            color: #004d4d;
         }
 
         .cart-container i {
@@ -93,7 +94,7 @@
             /* Ensures images don’t stretch too much */
             height: 200px;
             /* Fixed height */
-            object-fit: cover;
+            object-fit: contain;
             /* Ensures the image fills the area */
             object-position: top;
             /* Focuses on the upper part of the image */
@@ -721,6 +722,122 @@
             color: #ff0000;
         }
     </style>
+      <style>
+        .modalexplore {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: black;
+            z-index: 1000;
+        }
+
+        .modalexplore.active {
+            display: block;
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1010;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+
+        .close-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .shorts-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            position: relative;
+        }
+
+        .shorts-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .video-item {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            background-color: black;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .youtube-player {
+            position: absolute;
+            width: 100vw;
+            height: 177.78vw;
+            max-height: 100vh;
+            max-width: 56.25vh;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            /* Prevents interaction with the player */
+        }
+
+        /* Hide iframe border */
+        .youtube-player iframe {
+            border: none !important;
+            zoom: 10%;
+        }
+
+        @media (min-width: 768px) {
+            .youtube-player {
+                width: 56.25vh;
+                height: 100vh;
+            }
+        }
+
+        .explore-btn {
+            position: absolute;
+            left: 10vw;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 10px 25px;
+            background: rgb(68, 201, 201);
+            color: white;
+            /* Aqua tone */
+
+            border: none;
+            border-radius: 25px;
+
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
+        }
+        .explore-btn.hover{
+            background:#007A7A;
+        }
+    </style>
 
 </head>
 
@@ -729,128 +846,14 @@
     <header
         style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 100px; background: linear-gradient(135deg, aqua, rgb(8, 132, 132));">
         <!-- Home Button -->
-        <a href="{{ url_for('homepage') }}" class="back-btn">
+        <a href="/" class="back-btn">
             &larr; Home
         </a>
+        
 
         <div>
 
-            <style>
-                .modal {
-                    display: none;
-                    position: fixed;
-                    inset: 0;
-                    background-color: black;
-                    z-index: 1000;
-                }
-
-                .modal.active {
-                    display: block;
-                }
-
-                .close-btn {
-                    position: fixed;
-                    top: 1rem;
-                    right: 1rem;
-                    z-index: 1010;
-                    padding: 8px;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    border: none;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    transition: background-color 0.2s;
-                }
-
-                .close-btn:hover {
-                    background-color: rgba(0, 0, 0, 0.75);
-                }
-
-                .close-btn svg {
-                    width: 24px;
-                    height: 24px;
-                    fill: white;
-                }
-
-                .shorts-container {
-                    height: 100vh;
-                    overflow-y: scroll;
-                    scroll-snap-type: y mandatory;
-                    position: relative;
-                }
-
-                .shorts-container::-webkit-scrollbar {
-                    display: none;
-                }
-
-                .video-item {
-                    position: relative;
-                    width: 100%;
-                    height: 100vh;
-                    scroll-snap-align: start;
-                    background-color: black;
-                }
-
-                .video-wrapper {
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    overflow: hidden;
-                }
-
-                .youtube-player {
-                    position: absolute;
-                    width: 100vw;
-                    height: 177.78vw;
-                    max-height: 100vh;
-                    max-width: 56.25vh;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    pointer-events: none;
-                    /* Prevents interaction with the player */
-                }
-
-                /* Hide iframe border */
-                .youtube-player iframe {
-                    border: none !important;
-                    zoom: 10%;
-                }
-
-                @media (min-width: 768px) {
-                    .youtube-player {
-                        width: 56.25vh;
-                        height: 100vh;
-                    }
-                }
-
-                .explore-btn {
-                    position: absolute;
-                    left: 10vw;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    padding: 10px 25px;
-                    background: rgb(68, 201, 201);
-                    color: white;
-                    /* Aqua tone */
-
-                    border: none;
-                    border-radius: 25px;
-
-                    font-weight: 600;
-                    font-size: 16px;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
-                }
-                .explore-btn.hover{
-                    background:#007A7A;
-                }
-            </style>
+          
 
             <button class="explore-btn">Explore</button>
 
@@ -865,141 +868,7 @@
                 <div class="shorts-container"></div>
             </div>
 
-            <script>
-                // Sample videos data - replace with your video IDs
-                const videos = [
-                    {
-                        id: 1,
-                        videoId: 'S5UoJrIPp-U',
-                        title: 'Short Video 1'
-                    },
-                    {
-                        id: 2,
-                        videoId: 'JYXFD70lNNg',
-                        title: 'Short Video 2'
-                    }
-                ];
-
-                let players = {};
-                let currentlyPlaying = null;
-
-                // Load YouTube API
-                const tag = document.createElement('script');
-                tag.src = "https://www.youtube.com/iframe_api";
-                const firstScriptTag = document.getElementsByTagName('script')[0];
-                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-                window.onYouTubeIframeAPIReady = function () {
-                    createVideoElements();
-                };
-
-                function createVideoElements() {
-                    const container = document.querySelector('.shorts-container');
-
-                    videos.forEach((video, index) => {
-                        const videoItem = document.createElement('div');
-                        videoItem.className = 'video-item';
-                        videoItem.innerHTML = `
-                    <div class="video-wrapper">
-                        <div id="player-${index}" class="youtube-player"></div>
-                    </div>
-                `;
-                        container.appendChild(videoItem);
-
-                        // Create player with minimal UI
-                        players[index] = new YT.Player(`player-${index}`, {
-                            videoId: video.videoId,
-                            playerVars: {
-                                autoplay: 0,
-                                controls: 0,
-                                disablekb: 1,
-                                fs: 0,
-                                iv_load_policy: 3, // Hide video annotations
-                                modestbranding: 1,
-                                playsinline: 1,
-                                rel: 0,
-                                loop: 1,
-                                playlist: video.videoId,
-                                mute: 1,
-                                showinfo: 0, // Hide video title and uploader info
-                                origin: window.location.origin
-                            },
-                            events: {
-                                onReady: (event) => {
-                                    if (index === 0) {
-                                        event.target.playVideo();
-                                        currentlyPlaying = 0;
-                                    }
-                                    // Hide YouTube logo and other UI elements
-                                    const iframe = event.target.getIframe();
-                                    iframe.style.pointerEvents = 'none';
-                                }
-                            }
-                        });
-                    });
-                }
-
-                // Intersection Observer for video playback
-                function setupIntersectionObserver() {
-                    const options = {
-                        root: document.querySelector('.shorts-container'),
-                        threshold: 0.7
-                    };
-
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            const index = Array.from(entry.target.parentElement.children).indexOf(entry.target);
-
-                            if (entry.isIntersecting) {
-                                if (currentlyPlaying !== index) {
-                                    if (currentlyPlaying !== null && players[currentlyPlaying]) {
-                                        players[currentlyPlaying].pauseVideo();
-                                    }
-                                    if (players[index]) {
-                                        players[index].playVideo();
-                                        currentlyPlaying = index;
-                                    }
-                                }
-                            }
-                        });
-                    }, options);
-
-                    document.querySelectorAll('.video-item').forEach(item => {
-                        observer.observe(item);
-                    });
-                }
-
-                // Event listeners
-                const modal = document.querySelector('.modal');
-                const exploreBtn = document.querySelector('.explore-btn');
-                const closeBtn = document.querySelector('.close-btn');
-
-                exploreBtn.addEventListener('click', () => {
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                    if (players[0]) {
-                        players[0].playVideo();
-                    }
-                    setupIntersectionObserver();
-                });
-
-                closeBtn.addEventListener('click', () => {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'unset';
-                    Object.values(players).forEach(player => {
-                        if (player && player.pauseVideo) {
-                            player.pauseVideo();
-                        }
-                    });
-                    currentlyPlaying = null;
-                });
-
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && modal.classList.contains('active')) {
-                        closeBtn.click();
-                    }
-                });
-            </script>
+         
 
 
         </div>
@@ -2015,6 +1884,141 @@
             });
         });
 
+    </script>
+       <script>
+        // Sample videos data - replace with your video IDs
+        const videos = [
+            {
+                id: 1,
+                videoId: 'S5UoJrIPp-U',
+                title: 'Short Video 1'
+            },
+            {
+                id: 2,
+                videoId: 'JYXFD70lNNg',
+                title: 'Short Video 2'
+            }
+        ];
+
+        let players = {};
+        let currentlyPlaying = null;
+
+        // Load YouTube API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        window.onYouTubeIframeAPIReady = function () {
+            createVideoElements();
+        };
+
+        function createVideoElements() {
+            const container = document.querySelector('.shorts-container');
+
+            videos.forEach((video, index) => {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+                videoItem.innerHTML = `
+            <div class="video-wrapper">
+                <div id="player-${index}" class="youtube-player"></div>
+            </div>
+        `;
+                container.appendChild(videoItem);
+
+                // Create player with minimal UI
+                players[index] = new YT.Player(`player-${index}`, {
+                    videoId: video.videoId,
+                    playerVars: {
+                        autoplay: 0,
+                        controls: 0,
+                        disablekb: 1,
+                        fs: 0,
+                        iv_load_policy: 3, // Hide video annotations
+                        modestbranding: 1,
+                        playsinline: 1,
+                        rel: 0,
+                        loop: 1,
+                        playlist: video.videoId,
+                        mute: 1,
+                        showinfo: 0, // Hide video title and uploader info
+                        origin: window.location.origin
+                    },
+                    events: {
+                        onReady: (event) => {
+                            if (index === 0) {
+                                event.target.playVideo();
+                                currentlyPlaying = 0;
+                            }
+                            // Hide YouTube logo and other UI elements
+                            const iframe = event.target.getIframe();
+                            iframe.style.pointerEvents = 'none';
+                        }
+                    }
+                });
+            });
+        }
+
+        // Intersection Observer for video playback
+        function setupIntersectionObserver() {
+            const options = {
+                root: document.querySelector('.shorts-container'),
+                threshold: 0.7
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const index = Array.from(entry.target.parentElement.children).indexOf(entry.target);
+
+                    if (entry.isIntersecting) {
+                        if (currentlyPlaying !== index) {
+                            if (currentlyPlaying !== null && players[currentlyPlaying]) {
+                                players[currentlyPlaying].pauseVideo();
+                            }
+                            if (players[index]) {
+                                players[index].playVideo();
+                                currentlyPlaying = index;
+                            }
+                        }
+                    }
+                });
+            }, options);
+
+            document.querySelectorAll('.video-item').forEach(item => {
+                observer.observe(item);
+            });
+        }
+
+        // Event listeners
+        const modal = document.querySelector('.modal');
+        const exploreBtn = document.querySelector('.explore-btn');
+        const closeBtn = document.querySelector('.close-btn');
+
+        exploreBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (players[0]) {
+                players[0].playVideo();
+            }
+            setupIntersectionObserver();
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'unset';
+            Object.values(players).forEach(player => {
+                if (player && player.pauseVideo) {
+                    player.pauseVideo();
+                }
+            });
+            currentlyPlaying = null;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeBtn.click();
+            }
+        });
     </script>
 
 

@@ -2,6 +2,7 @@
 import os
 import json
 from flask import Flask,render_template,request,jsonify,url_for,redirect,send_file,flash
+from flask import session as ses
 from db import *
 from db import SessionLocal, Product, Review, Customer
 from sqlalchemy.orm import sessionmaker
@@ -15,7 +16,8 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.graphics.shapes import Drawing, Line
-
+from werkzeug.security import check_password_hash
+from datetime import timedelta
 # Add a solid black line
 
 # Using joinedload
@@ -34,7 +36,7 @@ UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-
+ADMIN_CREDENTIALS = {"username": "admin", "password": "password123"}
 session = SessionLocal()
 
 
@@ -43,18 +45,15 @@ def hello_world():
     all_reviews = session.query(Review).filter_by(visibility_on_homepage = True).all()
     return render_template('index.html',all_reviews = all_reviews)
 
-@app.route('/homepage')
-def homepage():
-    all_reviews = session.query(Review).filter_by(visibility_on_homepage = True).all()
-    
-        
-    return render_template('index.html',all_reviews = all_reviews)
 
 
 
 
 @app.route('/admin_page')
 def admin():
+    if 'admin_logged_in' not in ses:
+        return redirect(url_for('admin_login'))
+
     # Fetch all reviews
     all_reviews = session.query(Review).all()
     all_products = session.query(Product).all()
@@ -62,6 +61,31 @@ def admin():
     all_invoice = session.query(Invoice).join(Invoice.customer).all()
     all_invoice_item = session.query(InvoiceItem).all()
     return render_template('admin.html', all_reviews=all_reviews,all_products = all_products,all_invoice = all_invoice)
+
+
+
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == ADMIN_CREDENTIALS['username'] and password == ADMIN_CREDENTIALS['password']:
+            ses['admin_logged_in'] = True
+            flash('Login successful!', 'success')
+            return redirect(url_for('admin'))
+        else:
+            flash('Invalid credentials!', 'danger')
+
+    return render_template('admin_login.html')
+
+@app.route('/logout')
+def logout():
+    ses.pop('admin_logged_in', None)
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('admin_login'))
+
+
+
 
 @app.route('/toggle_visibility/<int:review_id>', methods=['POST'])
 def toggle_visibility(review_id):
@@ -197,14 +221,6 @@ def shopnow():
     all_product = session.query(Product).all()
     return render_template('shopnow.html', all_product=all_product, invoice=invoice)
 
-@app.route('/filter',methods = ['POST'])
-def filter():
-    variety = request.form['filter']
-    if(variety == 'All'):
-        all_product = session.query(Product).all()
-        return render_template('shopnow.html',all_product = all_product)
-    all_product = session.query(Product).filter_by(variety = variety).all()
-    return render_template('shopnow.html',all_product = all_product)
 
 @app.route('/add_customer', methods=['POST'])
 def add_customer():
