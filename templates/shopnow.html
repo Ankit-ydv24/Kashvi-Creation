@@ -426,46 +426,7 @@
             }
         }
 
-        .back-btn {
-            /* font-size: 14px; */
-            /* font-weight: 500; */
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            margin-top: 20px;
-            /* padding: 6px 10px; */
-            background: rgb(68, 201, 201);
-            color: white;
-            /* Light grayish-white */
-            text-decoration: none;
-            /* border-radius: 8px; */
-            transition: all 0.3s ease-in-out;
-            /* position: absolute; */
-            /* left: 10vw; */
-            /* top: 50%; */
-            /* transform: translateY(-50%); */
-            padding: 10px 25px;
-            /* background-color: rgb(30, 111, 111); */
-            /* Aqua tone */
 
-            border: none;
-            border-radius: 25px;
-
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .back-btn:hover {
-            background-color: #0a6f65;
-            /* Darker shade on hover */
-            color: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
 
         .footer {
             width: 100%;
@@ -722,7 +683,7 @@
             color: #ff0000;
         }
     </style>
-      <style>
+    <style>
         .modalexplore {
             display: none;
             position: fixed;
@@ -812,30 +773,57 @@
                 height: 100vh;
             }
         }
+        
 
+        .back-btn,
         .explore-btn {
             position: absolute;
+            padding: 12px 22px;
+            margin-right: 7px;
+            background: #00BFB3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 191, 179, 0.2);
+        }
+
+        /* Specific positioning for back button */
+        .back-btn {
+            top: 8px;
+            left: 10px;
+            margin-top: 20px;
+        }
+
+        /* Specific positioning for explore button */
+        .explore-btn {
             left: 10vw;
             top: 50%;
             transform: translateY(-50%);
-            padding: 10px 25px;
-            background: rgb(68, 201, 201);
-            color: white;
-            /* Aqua tone */
-
-            border: none;
-            border-radius: 25px;
-
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
         }
-        .explore-btn.hover{
-            background:#007A7A;
+
+        /* Hover state for both buttons */
+        .back-btn:hover,
+        .explore-btn:hover {
+            background: #009B91;
+            box-shadow: 0 6px 20px rgba(0, 191, 179, 0.3);
+        }
+
+        /* Active state for both buttons */
+        .back-btn:active,
+        .explore-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(0, 191, 179, 0.2);
+        }
+
+        /* Special transform handling for explore button active state */
+        .explore-btn:active {
+            transform: translateY(-50%) scale(0.98);
         }
     </style>
 
@@ -844,20 +832,19 @@
 <body>
     <!-- REPLACE THE ENTIRE HEADER SECTION WITH THIS CODE -->
     <header
-        style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 100px; background: linear-gradient(135deg, aqua, rgb(8, 132, 132));">
+        style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 100px; background:  rgb(8, 132, 132);">
         <!-- Home Button -->
         <a href="/" class="back-btn">
             &larr; Home
         </a>
-        
 
         <div>
 
-          
+
 
             <button class="explore-btn">Explore</button>
 
-            <div class="modal">
+            <div class="modalexplore">
                 <button class="close-btn">
                     <svg viewBox="0 0 24 24">
                         <path
@@ -868,14 +855,14 @@
                 <div class="shorts-container"></div>
             </div>
 
-         
+
 
 
         </div>
 
         <!-- Content Centered in Header -->
         <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-            <img src="{{ url_for('static', filename='images/img-20250204-wa0006-224x224.jpg') }}"
+            <img src="{{ url_for('static', filename='images/img-20250204-wa0006-224x224.png') }}"
                 style="width: 70px; height: 70px; margin-right: 10px;">
             <div>
                 <h1>Kashvi Creation</h1>
@@ -1885,7 +1872,7 @@
         });
 
     </script>
-       <script>
+    <script>
         // Sample videos data - replace with your video IDs
         const videos = [
             {
@@ -1990,7 +1977,7 @@
         }
 
         // Event listeners
-        const modal = document.querySelector('.modal');
+        const modal = document.querySelector('.modalexplore');
         const exploreBtn = document.querySelector('.explore-btn');
         const closeBtn = document.querySelector('.close-btn');
 
