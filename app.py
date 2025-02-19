@@ -308,7 +308,7 @@ def generate_invoice(invoice_id):
         styles = getSampleStyleSheet()
 
         # Add logo
-        logo_path = os.path.join("static", "images", "img-20250204-wa0006-224x224.jpg")
+        logo_path = os.path.join("static", "images", "img-20250204-wa0006-224x224.png")
         logo = Image(logo_path, width=170, height=170)
         elements.append(logo)
         # Company address
