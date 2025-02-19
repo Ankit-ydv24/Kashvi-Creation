@@ -916,7 +916,7 @@
                 visibility: hidden;
             }
 
-            .filter-container{
+            .filter-container {
                 margin-top: 20px;
             }
 
@@ -958,7 +958,7 @@
                 margin-bottom: 5px;
             }
 
-            header a{
+            header a {
                 padding-bottom: 10px;
             }
 
@@ -977,7 +977,7 @@
             }
 
             /* Cart & Wishlist Button Adjustments */
-            .wishlist-container{
+            .wishlist-container {
                 top: 80px;
                 margin: 5px;
                 right: 0px;
@@ -1674,7 +1674,32 @@
     <script>
 
         let cart = {};
-
+        // Function to initialize empty state for cart only
+        function initializeEmptyCart() {
+            const cartItems = document.getElementById('cart-items');
+            if (Object.keys(cart).length === 0) {
+                cartItems.innerHTML = `
+            <div class="empty-state">
+                <i class="fa fa-shopping-cart"></i>
+                <h3>Your Cart is empty</h3>
+                <p>You haven't added anything to your cart yet.</p>
+            </div>
+        `;
+            }
+        }
+        // Function to initialize empty state for wishlist only
+        function initializeEmptyWishlist() {
+            const wishlistItems = document.getElementById('wishlist-items');
+            if (Object.keys(wishlist).length === 0) {
+                wishlistItems.innerHTML = `
+            <div class="empty-state">
+                <i class="fa fa-heart"></i>
+                <h3>Your Wishlist is empty</h3>
+                <p>You haven't added anything yet.</p>
+            </div>
+        `;
+            }
+        }
 
         function addToCart(productId, productName) {
             productId = String(productId);  // Ensure productId is a string
@@ -1689,19 +1714,19 @@
         }
 
 
+        // Modified updateCartModal function
         function updateCartModal() {
             let cartList = document.getElementById("cart-items");
             let totalAmount = 0;
             cartList.innerHTML = ""; // Clear cart before adding
+
             if (Object.keys(cart).length === 0) {
-                initializeEmptyStates();
+                initializeEmptyCart(); // Only initialize cart empty state
                 return;
             }
 
             Object.keys(cart).forEach(productId => {
                 let item = cart[productId];
-
-
                 let div = document.createElement("div");
                 div.className = "list-group-item d-flex justify-content-between align-items-center";
                 div.innerHTML = `
@@ -1710,17 +1735,17 @@
                 <p class="text-muted">Quantity = ${item.quantity}</p>
             </div>
             <div class="cart-item-action">
-                        <button class="action-btn" onclick="changeQuantity('${productId}', 1)">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                        <button class="action-btn" onclick="changeQuantity('${productId}', -1)">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                        <button class="action-btn delete-btn" onclick="removeFromCart('${productId}')">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                `;
+                <button class="action-btn" onclick="changeQuantity('${productId}', 1)">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button class="action-btn" onclick="changeQuantity('${productId}', -1)">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button class="action-btn delete-btn" onclick="removeFromCart('${productId}')">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        `;
                 cartList.appendChild(div);
             });
 
@@ -1764,6 +1789,8 @@
             // Add to cart using existing function
             addToCart(productId, productName);
         });
+
+
         function removeFromCart(productId) {
             delete cart[productId];
             document.getElementById("cart-count").innerText = Object.keys(cart).length;
@@ -1797,30 +1824,30 @@
         let wishlist = {};
 
         // Initialize empty states
-        function initializeEmptyStates() {
-            // Cart empty state
-            const cartItems = document.getElementById('cart-items');
-            cartItems.innerHTML = `
-                <div class="empty-state">
-                    <i class="fa fa-shopping-cart"></i>
-                    <h3>Your Cart is empty</h3>
-                    <p>You haven't added anything to your cart yet.</p>
-                </div>
-            `;
+        // function initializeEmptyStates() {
+        //     // Cart empty state
+        //     const cartItems = document.getElementById('cart-items');
+        //     cartItems.innerHTML = `
+        //         <div class="empty-state">
+        //             <i class="fa fa-shopping-cart"></i>
+        //             <h3>Your Cart is empty</h3>
+        //             <p>You haven't added anything to your cart yet.</p>
+        //         </div>
+        //     `;
 
-            // Wishlist empty state
-            const wishlistItems = document.getElementById('wishlist-items');
-            wishlistItems.innerHTML = `
-                <div class="empty-state">
-                    <i class="fa fa-heart"></i>
-                    <h3>Your Wishlist is empty</h3>
-                    <p>You haven't added anything yet.</p>
-                </div>
-            `;
-        }
+        //     // Wishlist empty state
+        //     const wishlistItems = document.getElementById('wishlist-items');
+        //     wishlistItems.innerHTML = `
+        //         <div class="empty-state">
+        //             <i class="fa fa-heart"></i>
+        //             <h3>Your Wishlist is empty</h3>
+        //             <p>You haven't added anything yet.</p>
+        //         </div>
+        //     `;
+        // }
 
         // Call this when the page loads
-        document.addEventListener('DOMContentLoaded', initializeEmptyStates);
+        // document.addEventListener('DOMContentLoaded', initializeEmptyStates);
 
         // Add to wishlist function
         function addToWishlist(productId, productName) {
@@ -1833,10 +1860,11 @@
         }
 
         // Update wishlist modal
+        // Modified updateWishlistModal function
         function updateWishlistModal() {
             const wishlistContainer = document.getElementById("wishlist-items");
             if (Object.keys(wishlist).length === 0) {
-                initializeEmptyStates();
+                initializeEmptyWishlist(); // Only initialize wishlist empty state
                 return;
             }
 
@@ -1846,7 +1874,6 @@
                 div.className = "list-group-item";
                 div.innerHTML = `
             <div class="modal-item-details">
-              
                 <div class="modal-item-info">
                     <strong>${item.name}</strong>
                 </div>
@@ -1870,6 +1897,12 @@
             document.getElementById("wishlist-count").innerText = Object.keys(wishlist).length;
             updateWishlistModal();
         }
+
+        // Initialize both empty states when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeEmptyCart();
+            initializeEmptyWishlist();
+        });
     </script>
 
 
